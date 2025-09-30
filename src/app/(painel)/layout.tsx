@@ -6,7 +6,7 @@ import { PageWrapper } from "@/components/Layouts/wrapper/PageWrapper";
 import { Box, Container } from "@mui/material";
 import { Suspense } from "react";
 export const metadata: Metadata = {
-  title: "The Varejão",
+  title: "Leilão de carteiras",
 };
 
 export default function RootLayout({
