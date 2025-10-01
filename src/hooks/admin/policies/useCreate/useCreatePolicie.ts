@@ -1,14 +1,14 @@
-import { IPolicies } from "@/@types/auth/IPolicies";
+import { IPermission } from "@/@types/auth/IPermission";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { POLICIES } from "../../../../services/apiService/endpoints/admin/policies";
+import { PERMISSIONS } from "../../../../services/apiService/endpoints/admin/policies";
 
 function useCreatePolicies(invalidateQuery: string[]) {
-  const { create } = POLICIES;
+  const { create } = PERMISSIONS;
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: IPolicies) => {
+    mutationFn: async (data: IPermission) => {
       const resp = await create(data);
       return Promise.resolve(resp);
     },

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { USERS } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
 
 type ErrorResponse = {
   error: string;
@@ -13,7 +13,7 @@ function useCreateUser(invalidateQuery: string[]) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: any) => {
-      const response = await USERS.create(data);
+      const response = await PROFILES.create(data);
       if (response.error) {
         throw response;
       }

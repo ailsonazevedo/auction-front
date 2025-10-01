@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { USERS } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
 
 function useGetUser() {
   return useQuery({
     queryFn: async () => {
-      const response = await USERS.getList();
+      const response = await PROFILES.getList();
       return response;
     },
 

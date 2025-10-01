@@ -1,5 +1,5 @@
 "use client";
-import { useGetMePolicies } from "@/hooks/admin/policies/useGet/useGetMePolicies";
+import { useGetMePermissions } from "@/hooks/admin/policies/useGet/useGetMePermissions";
 import { defineRulesFor } from "@/utils/ability/defineFor";
 import { AnyAbility, PureAbility } from "@casl/ability";
 import { createContextualCan } from "@casl/react";
@@ -14,14 +14,14 @@ export const AbilityStatusContext = createContext({
 export const Can = createContextualCan(AbilityContext.Consumer);
 
 const AbilityProvider = ({ children }: { children: React.ReactNode }) => {
-  const { data: policies, isError, isLoading } = useGetMePolicies();
+  const { data: permissions, isError, isLoading } = useGetMePermissions();
 
   const newAbility = useMemo(() => {
-    if (policies) {
-      return defineRulesFor(policies);
+    if (permissions) {
+      return defineRulesFor(permissions);
     }
     return new PureAbility();
-  }, [policies]);
+  }, [permissions]);
 
   const contextStatus = useMemo(
     () => ({ isError, isLoading }),

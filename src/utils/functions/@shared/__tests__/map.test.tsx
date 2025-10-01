@@ -1,5 +1,5 @@
 import { IGroup } from "@/@types/admin/groups/IGroup";
-import { TPolicies } from "@/@types/auth/IPolicies";
+import { TPolicies } from "@/@types/auth/IPermission";
 
 import { createGroupsMap, createPoliciesMap } from "../map";
 

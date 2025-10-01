@@ -1,10 +1,10 @@
 import { IUser } from "@/@types/user/IUser";
 import { useQuery } from "@tanstack/react-query";
 
-import { USERS } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
 
 function useGetOneUser(id: string) {
-  const { getOne } = USERS;
+  const { getOne } = PROFILES;
 
   return useQuery({
     enabled: !!id,

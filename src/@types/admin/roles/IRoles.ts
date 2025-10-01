@@ -1,4 +1,4 @@
-import { TPolicies } from "@/@types/auth/IPolicies";
+import { TPolicies } from "@/@types/auth/IPermission";
 
 interface IRole {
   name: string;

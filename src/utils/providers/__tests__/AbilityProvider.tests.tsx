@@ -1,4 +1,4 @@
-import { useGetMePolicies } from "@/hooks/admin/policies/useGet/useGetMePolicies";
+import { useGetMePermissions } from "@/hooks/admin/policies/useGet/useGetMePermissions";
 import { defineRulesFor } from "@/utils/ability/defineFor";
 import AbilityProvider, {
   AbilityContext,
@@ -7,7 +7,7 @@ import AbilityProvider, {
 import { PureAbility } from "@casl/ability";
 import { render, screen } from "@testing-library/react";
 
-jest.mock("@/hooks/admin/policies/useGet/useGetMePolicies");
+jest.mock("@/hooks/admin/policies/useGet/useGetMePermissions");
 jest.mock("@/utils/ability/defineFor");
 jest.mock("react-secure-storage", () => ({
   getItem: jest.fn(),
@@ -25,7 +25,7 @@ describe("AbilityProvider", () => {
 
   it("should provide a default ability when policies are undefined", () => {
     // Mockando o retorno do hook
-    (useGetMePolicies as jest.Mock).mockReturnValue({
+    (useGetMePermissions as jest.Mock).mockReturnValue({
       data: undefined,
       isError: false,
       isLoading: false,
@@ -51,7 +51,7 @@ describe("AbilityProvider", () => {
 
   it("should provide a custom ability when policies are defined", () => {
     // Mockando o retorno do hook e defineRulesFor
-    (useGetMePolicies as jest.Mock).mockReturnValue({
+    (useGetMePermissions as jest.Mock).mockReturnValue({
       data: mockPolicies,
       isError: false,
       isLoading: false,
@@ -78,7 +78,7 @@ describe("AbilityProvider", () => {
 
   it("should provide the correct loading and error states", () => {
     // Mockando o retorno do hook
-    (useGetMePolicies as jest.Mock).mockReturnValue({
+    (useGetMePermissions as jest.Mock).mockReturnValue({
       data: undefined,
       isError: true,
       isLoading: true,
@@ -100,7 +100,7 @@ describe("AbilityProvider", () => {
 
   it("should provide no error and no loading state when policies are available", () => {
     // Mockando o retorno do hook com sucesso
-    (useGetMePolicies as jest.Mock).mockReturnValue({
+    (useGetMePermissions as jest.Mock).mockReturnValue({
       data: mockPolicies,
       isError: false,
       isLoading: false,

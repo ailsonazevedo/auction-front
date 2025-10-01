@@ -1,12 +1,11 @@
-import { TPolicies } from "@/@types/auth/IPolicies";
+import { IPermission } from "@/@types/auth/IPermission";
+import { PERMISSIONS } from "@/services/apiService/endpoints/admin/permissions";
 import { useQuery } from "@tanstack/react-query";
 
-import { POLICIES } from "../../../../services/apiService/endpoints/admin/policies";
-
 function useGetPolicies() {
-  const { getList } = POLICIES;
+  const { getList } = PERMISSIONS;
   return useQuery({
-    queryFn: async (): Promise<TPolicies[]> => {
+    queryFn: async (): Promise<IPermission[]> => {
       const requests = await getList();
       return requests;
     },

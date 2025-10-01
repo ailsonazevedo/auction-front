@@ -1,5 +1,5 @@
 "use client";
-import { TPolicies } from "@/@types/auth/IPolicies";
+import { TPolicies } from "@/@types/auth/IPermission";
 import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/AlertErrorWithRealod";
 import { SimpleDrawer } from "@/components/@shared/Drawer/SimpleDrawer";
 import { PoliciesForm } from "@/components/admin/Forms/PoliciesForm";

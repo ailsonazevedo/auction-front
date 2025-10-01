@@ -10,7 +10,7 @@ const getLoggedUserId = async (): Promise<string> => {
     return "";
   }
   const decodedData = decodeToken(tokenValue);
-  const { sub: userId } = decodedData;
+  const { profile_id: userId } = decodedData;
   return userId as string;
 };
 

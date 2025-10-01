@@ -9,7 +9,7 @@ import {
 } from "@/constants/gestao-rh/gestao-de-escalas/permissoes";
 import { useCreatePolicies } from "@/hooks/admin/policies/useCreate/useCreatePolicie";
 import { useDeletePolicy } from "@/hooks/admin/policies/useDelete/useDeletePolicie";
-import { useGetOnePolicy } from "@/hooks/admin/policies/useGet/useGetOnePolicy";
+import { useGetOnePermission } from "@/hooks/admin/policies/useGet/useGetOnePermission";
 import { useUpdatePolicy } from "@/hooks/admin/policies/useUpdate/useUpdatePolicie";
 import { useDrawerStore } from "@/stores/drawerStore/drawer-store";
 import { LoadingButton } from "@mui/lab";
@@ -70,7 +70,7 @@ const PoliciesForm = ({ id }: Props) => {
     isError: isErrorPolicy,
     isFetching: isFetchingPolicy,
     isLoading: policyDataLoading,
-  } = useGetOnePolicy(id ?? "");
+  } = useGetOnePermission(id ?? "");
 
   const { toggleDrawer } = useDrawerStore();
 

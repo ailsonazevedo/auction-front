@@ -1,4 +1,4 @@
-import { TPolicies } from "@/@types/auth/IPolicies";
+import { TPolicies } from "@/@types/auth/IPermission";
 
 const getPolicyNames = (policyIds: string[], policiesData: TPolicies[]) => {
   return policyIds

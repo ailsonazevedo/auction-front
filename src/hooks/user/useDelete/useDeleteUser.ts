@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { USERS } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
 
 function useDeleteUser(invalidateQuery: string[]) {
-  const { deleteOne } = USERS;
+  const { deleteOne } = PROFILES;
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {

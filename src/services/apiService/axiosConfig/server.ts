@@ -1,5 +1,5 @@
 import { getTokens } from "@/actions/get-token";
-import { API_RESOURCE_AUTH } from "@/constants/services";
+import { API_RESOURCE_AUTH, API_URL_BASE } from "@/constants/services";
 import axios from "axios";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -7,6 +7,10 @@ import "server-only";
 
 const instanceAuth = axios.create({
   baseURL: `${API_RESOURCE_AUTH}`,
+});
+
+const apiInstance = axios.create({
+  baseURL: `${API_URL_BASE}`,
 });
 
 instanceAuth.interceptors.request.use(
@@ -47,10 +51,10 @@ instanceAuth.interceptors.request.use(
   },
 );
 
-const getPoliciesAuth = {
+const getPermissionsAuth = {
   get: async (): Promise<any> => {
-    return await instanceAuth.get(`/iam/policies/me`);
+    return await apiInstance.get(`/profiles/permissions`);
   },
 };
 
-export { getPoliciesAuth };
+export { getPermissionsAuth };

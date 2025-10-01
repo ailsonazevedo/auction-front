@@ -1,10 +1,9 @@
-import { TPolicies } from "@/@types/auth/IPolicies";
+import { IPermission } from "@/@types/auth/IPermission";
+import { PERMISSIONS } from "@/services/apiService/endpoints/admin/permissions";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 
-import { POLICIES } from "../../../../services/apiService/endpoints/admin/policies";
-
-function useGetMePolicies() {
+function useGetMePermissions() {
   const pathname = usePathname();
   const authPages = [
     "/entrar",
@@ -12,11 +11,11 @@ function useGetMePolicies() {
     "/esqueci-senha",
     "/dois-fatores",
   ];
-  const { getList } = POLICIES;
+  const { getList } = PERMISSIONS;
   return useQuery({
     enabled: !authPages.includes(pathname),
-    queryFn: async (): Promise<TPolicies[]> => {
-      const requests = await getList("/me");
+    queryFn: async (): Promise<IPermission[]> => {
+      const requests = await getList();
       return requests;
     },
     queryKey: ["admin", "policies", "me"], // Usado para identificar a chamada no cache
@@ -24,4 +23,4 @@ function useGetMePolicies() {
   });
 }
 
-export { useGetMePolicies };
+export { useGetMePermissions };

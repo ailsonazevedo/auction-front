@@ -1,10 +1,10 @@
 import { IUser } from "@/@types/user/IUser";
 import { useQuery } from "@tanstack/react-query";
 
-import { USERS } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
 
 function useGetAllUsers() {
-  const { getList } = USERS;
+  const { getList } = PROFILES;
   return useQuery({
     queryFn: async (): Promise<IUser[]> => {
       const requests = await getList();

@@ -7,13 +7,14 @@ const tokenSchema = yup.object().shape({
   exp: yup.number().required(),
   iat: yup.number().required(),
   jti: yup.string().required(),
-  permissions: yup
+  permisssions: yup
     .array()
     .of(
-      yup.object({
-        action: yup.string().required(),
-        scope: yup.string().required(),
-      }),
+      yup
+        .object({
+          name: yup.string().required(),
+        })
+        .required(),
     )
     .required(),
   profile_id: yup.string().required(),
@@ -32,8 +33,8 @@ async function checkUser(token: string | undefined) {
     return false;
   }
 }
-const authPages = ["/entrar", "/registrar", "/esqueceu-senha", "/dois-fatores"];
-const publicPages = ["/", "/lojas", "/ofertas"];
+const authPages = ["/entrar", "/registrar", "/esqueceu-senha"];
+const publicPages = [""];
 
 export async function middleware(request: NextRequest) {
   const tokenJwt = cookies().get("access_token")?.value;

@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
-import { USERS } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
 
 type TMutationFn = {
   data: Partial<IUpdateUser>;
@@ -11,7 +11,7 @@ type TMutationFn = {
 };
 
 function useUpdateUser(invalidateQuery: string[]) {
-  const { updatePut } = USERS;
+  const { updatePut } = PROFILES;
 
   const queryClient = useQueryClient();
   return useMutation({

@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { POLICIES } from "../../../../services/apiService/endpoints/admin/policies";
+import { PERMISSIONS } from "../../../../services/apiService/endpoints/admin/policies";
 
 function useDeletePolicy(invalidateQuery: string[]) {
-  const { deleteOne } = POLICIES;
+  const { deleteOne } = PERMISSIONS;
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {

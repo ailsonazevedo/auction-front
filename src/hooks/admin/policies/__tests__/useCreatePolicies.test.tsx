@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { POLICIES } from "@/services/apiService/endpoints/admin/policies";
+import { PERMISSIONS } from "@/services/apiService/endpoints/admin/policies";
 import { renderHook, act } from "@testing-library/react";
 import { useCreatePolicies } from "../useCreate/useCreatePolicie";
 
@@ -40,7 +40,7 @@ describe("useCreatePolicies", () => {
 
   it("deve criar a política com sucesso", async () => {
     // Mock da função create
-    (POLICIES.create as jest.Mock).mockResolvedValue({
+    (PERMISSIONS.create as jest.Mock).mockResolvedValue({
       data: { message: "success" },
     });
 
@@ -59,7 +59,7 @@ describe("useCreatePolicies", () => {
     });
 
     // Verificar se a função foi chamada com os dados corretos
-    expect(POLICIES.create).toHaveBeenCalledWith({
+    expect(PERMISSIONS.create).toHaveBeenCalledWith({
       actions: [],
       effect: "",
       name: "Test Policy",
@@ -77,7 +77,7 @@ describe("useCreatePolicies", () => {
 
   it("deve mostrar erro em caso de falha na criação", async () => {
     // Mock da função create para retornar erro
-    (POLICIES.create as jest.Mock).mockRejectedValue(new Error("Error"));
+    (PERMISSIONS.create as jest.Mock).mockRejectedValue(new Error("Error"));
 
     const { result } = renderHook(() => useCreatePolicies(["policies"]), {
       wrapper,

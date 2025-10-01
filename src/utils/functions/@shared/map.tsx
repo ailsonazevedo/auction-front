@@ -1,5 +1,5 @@
 import { IGroup } from "@/@types/admin/groups/IGroup";
-import { TPolicies } from "@/@types/auth/IPolicies";
+import { TPolicies } from "@/@types/auth/IPermission";
 
 const createPoliciesMap = (policiesData: TPolicies[]) => {
   return new Map(policiesData.map((policy) => [policy._id, policy.name]));

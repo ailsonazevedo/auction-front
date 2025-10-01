@@ -1,14 +1,13 @@
-import { IUser } from "@/@types/user/IUser";
+import { IProfile } from "@/@types/user/IUser";
 import { getLoggedUserId } from "@/actions/get-logged-user-id";
+import { PROFILES } from "@/services/apiService/endpoints/admin/users";
 import { useQuery } from "@tanstack/react-query";
 
-import { USERS } from "../../../services/apiService/endpoints/admin/users";
-
 function useGetInfoLoggedUser() {
-  const { getOne } = USERS;
+  const { getOne } = PROFILES;
 
   return useQuery({
-    queryFn: async (): Promise<IUser> => {
+    queryFn: async (): Promise<IProfile> => {
       const userId = await getLoggedUserId();
       return await getOne(userId);
     },

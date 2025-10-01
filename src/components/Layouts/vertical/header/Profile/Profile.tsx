@@ -41,8 +41,12 @@ const Profile = () => {
     QueryClient.removeQueries();
   };
 
-  const hasProfilePhoto =
-    isSuccess && UserResult ? UserResult.profilePhoto : "";
+  // const hasProfilePhoto =
+  //   isSuccess && UserResult ? UserResult.profilePhoto : "";
+
+  const fullName =
+    UserResult?.user.first_name + " " + UserResult?.user.last_name;
+
   return (
     <Box>
       <IconButton
@@ -60,7 +64,7 @@ const Profile = () => {
       >
         <Avatar
           alt={"ProfileImg"}
-          src={hasProfilePhoto}
+          src={""}
           sx={{
             height: 35,
             width: 35,
@@ -92,22 +96,18 @@ const Profile = () => {
           <TogleTheme />
         </Stack>
         <Stack alignItems="center" direction="row" py={3} spacing={2}>
-          <Avatar
-            alt={"ProfileImg"}
-            src={hasProfilePhoto}
-            sx={{ height: 95, width: 95 }}
-          />
+          <Avatar alt={"ProfileImg"} src={""} sx={{ height: 95, width: 95 }} />
           <Box>
-            <Tooltip title={UserResult?.name ?? ""}>
+            <Tooltip title={fullName ?? ""}>
               <Typography
                 color="textPrimary"
                 fontWeight={600}
                 variant="subtitle2"
               >
-                {applyTextLimiter(UserResult?.name ?? "", 15)}
+                {applyTextLimiter(fullName ?? "", 15)}
               </Typography>
             </Tooltip>
-            <Tooltip title={UserResult?.email ?? ""}>
+            <Tooltip title={UserResult?.user.email ?? ""}>
               <Typography
                 alignItems="center"
                 color="textSecondary"
@@ -116,8 +116,8 @@ const Profile = () => {
                 variant="subtitle2"
               >
                 <IconMail height={15} width={15} />
-                {UserResult?.email ? (
-                  applyTextLimiter(UserResult.email, 15)
+                {UserResult?.user.email ? (
+                  applyTextLimiter(UserResult.user.email, 15)
                 ) : (
                   <CircularProgress size={30} />
                 )}
@@ -147,7 +147,7 @@ const Profile = () => {
                   >
                     <Avatar
                       alt={profile.icon}
-                      src={UserResult?.profilePhoto}
+                      src={""}
                       sx={{
                         borderRadius: 0,
                         height: 24,

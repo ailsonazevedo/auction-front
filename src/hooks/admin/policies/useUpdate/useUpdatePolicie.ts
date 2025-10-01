@@ -1,16 +1,16 @@
-import { IPolicies } from "@/@types/auth/IPolicies";
+import { IPermission } from "@/@types/auth/IPermission";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { POLICIES } from "../../../../services/apiService/endpoints/admin/policies";
+import { PERMISSIONS } from "../../../../services/apiService/endpoints/admin/policies";
 
 type TMutationFn = {
-  data: Partial<IPolicies>;
+  data: Partial<IPermission>;
   id: string;
 };
 
 function useUpdatePolicy(invalidateQuery: string[]) {
-  const { update } = POLICIES;
+  const { update } = PERMISSIONS;
 
   const queryClient = useQueryClient();
   return useMutation({

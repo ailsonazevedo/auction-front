@@ -1,23 +1,15 @@
-import { TRole } from "../admin/roles/IRoles";
-import { TPolicies } from "../auth/IPolicies";
-
 interface IUser {
-  _id: string;
-  dateOfBirth: string;
-  docId: string;
   email: string;
-  exp: number;
-  groups: string[];
-  iat: number;
-  isTwoFactorAuthenticationEnabled?: boolean;
-  name: string;
-  organization: string;
-  policies: TPolicies[];
-  profilePhoto: string;
-  roles: TRole[];
-  sub: string;
-  twoFactorAuthentication: boolean;
-  unit: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+}
+
+export interface IProfile {
+  cpf: string;
+  id: string;
+  role: string;
+  user: IUser;
 }
 
 interface ICreateUser extends IUser {
