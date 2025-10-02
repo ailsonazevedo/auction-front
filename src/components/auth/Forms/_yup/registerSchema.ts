@@ -2,13 +2,6 @@ import { emailRegex, nameRegex } from "@/constants/regex";
 import * as yup from "yup";
 
 const registerSchema = yup.object({
-  cnpj: yup
-    .string()
-    .matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, "CNPJ está incompleto"),
-  confirm_password: yup
-    .string()
-    .oneOf([yup.ref("password"), undefined], "Senhas não coincidem")
-    .required("Campo obrigatório"),
   cpf: yup
     .string()
     .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, "CPF está inválido")
@@ -20,7 +13,13 @@ const registerSchema = yup.object({
     .max(254, "Excedeu o tamanho máximo")
     .matches(emailRegex, "Email inválido")
     .required("Campo obrigatório"),
-  name: yup
+  first_name: yup
+    .string()
+    .trim()
+    .matches(nameRegex, "Nome inválido")
+    .required("Campo obrigatório")
+    .matches(nameRegex, "Nome inválido"),
+  last_name: yup
     .string()
     .trim()
     .matches(nameRegex, "Nome inválido")
@@ -37,10 +36,6 @@ const registerSchema = yup.object({
       "Senha deve ter um caractere especial",
     )
     .required("Campo obrigatório"),
-  termsOfUse: yup
-    .boolean()
-    .oneOf([true], "É necessário aceitar os termos de uso")
-    .required("É necessário aceitar os termos de uso"),
 });
 
 export { registerSchema };

@@ -1,4 +1,4 @@
-import { IUser } from "@/@types/user/IUser";
+import { IProfile } from "@/@types/user/IProfile";
 import { useQuery } from "@tanstack/react-query";
 
 import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
@@ -8,7 +8,7 @@ function useGetOneUser(id: string) {
 
   return useQuery({
     enabled: !!id,
-    queryFn: async (): Promise<IUser> => {
+    queryFn: async (): Promise<IProfile> => {
       return await getOne(id);
     },
     queryKey: ["admin", "users", id], // Usado para identificar a chamada no cache

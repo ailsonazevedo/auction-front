@@ -1,4 +1,4 @@
-import { registerUser } from "@/actions/register-user";
+import { registerProfile } from "@/actions/register-profile";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook } from "@testing-library/react";
 import { ReactNode } from "react";
@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import useRegister from "../useRegister/useRegister";
 
 jest.mock("react-hot-toast");
-jest.mock("@/actions/register-user");
+jest.mock("@/actions/register-profile");
 jest.mock("@tanstack/react-query", () => ({
   ...jest.requireActual("@tanstack/react-query"),
   useQueryClient: jest.fn(),
@@ -29,7 +29,7 @@ describe("useRegister hook", () => {
   });
 
   it("deve chamar a função de mutation com os dados corretos", async () => {
-    (registerUser as jest.Mock).mockImplementation(() =>
+    (registerProfile as jest.Mock).mockImplementation(() =>
       Promise.resolve({ statusCode: null }),
     );
 
@@ -42,7 +42,7 @@ describe("useRegister hook", () => {
       });
     });
 
-    expect(registerUser).toHaveBeenCalledWith({
+    expect(registerProfile).toHaveBeenCalledWith({
       email: "test@test.com",
       password: "password",
     });
@@ -65,7 +65,7 @@ describe("useRegister hook", () => {
     ];
 
     for (const { expectedMessage, response, toastId } of testCases) {
-      (registerUser as jest.Mock).mockImplementation(() =>
+      (registerProfile as jest.Mock).mockImplementation(() =>
         Promise.reject(response),
       );
 
@@ -88,7 +88,7 @@ describe("useRegister hook", () => {
   });
 
   it("deve exibir uma mensagem de sucesso ao registrar um usuário", async () => {
-    (registerUser as jest.Mock).mockImplementation(() =>
+    (registerProfile as jest.Mock).mockImplementation(() =>
       Promise.resolve({ statusCode: null }),
     );
 

@@ -1,4 +1,4 @@
-import { registerUser } from "@/actions/register-user";
+import { PROFILES } from "@/services/apiService/endpoints/admin/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -6,7 +6,7 @@ function useRegister() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: any) => {
-      const response = await registerUser(data);
+      const response = await PROFILES.create(data);
       if (response.statusCode) {
         return Promise.reject(new Error(response.message));
       }

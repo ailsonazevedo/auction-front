@@ -1,5 +1,5 @@
 "use client";
-import { ICreateUser } from "@/@types/user/IUser";
+import { ICreateUser } from "@/@types/user/IProfile";
 import {
   Box,
   Button,

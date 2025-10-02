@@ -107,6 +107,17 @@ const AuthLoginForm = ({ subtext, title }: LoginType) => {
           >
             Esqueceu a senha ?
           </Typography>
+          <Typography
+            component={Link}
+            fontWeight="500"
+            href="/registrar"
+            sx={{
+              color: "primary.main",
+              textDecoration: "none",
+            }}
+          >
+            Criar uma conta
+          </Typography>
         </Stack>
       </Stack>
       <Box color={"inherit"}>

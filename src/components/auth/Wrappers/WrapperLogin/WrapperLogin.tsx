@@ -8,7 +8,7 @@ function WrapperLogin() {
   return (
     <Suspense fallback={<Skeleton height={250} variant="rectangular" />}>
       <Box alignItems="center" display="flex" justifyContent="center">
-        <img alt="logo" height={60} src={"/images/logo-teresina-varejao.png"} />
+        <img alt="logo" height={80} src={"/images/logo.png"} />
       </Box>
       <AuthLoginForm />
     </Suspense>

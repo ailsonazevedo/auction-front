@@ -1,4 +1,5 @@
 "use client";
+import Logo from "@/components/@shared/Logo/Logo";
 import AuthRegisterForm from "@/components/auth/Forms/RegisterForm";
 import { Box, Card, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
@@ -48,37 +49,25 @@ export default function Register() {
             }}
           >
             <Box alignItems="center" display="flex" justifyContent="center">
-              {/* <Logo /> */}
+              <Logo />
             </Box>
-            <AuthRegisterForm
-              subtitle={
-                <Stack
-                  direction="row"
-                  justifyContent={"center"}
-                  mt={3}
-                  spacing={1}
-                >
-                  <Typography
-                    color="textSecondary"
-                    fontWeight="400"
-                    variant="h6"
-                  >
-                    Já tem uma conta?
-                  </Typography>
-                  <Typography
-                    component={Link}
-                    fontWeight="500"
-                    href="/entrar"
-                    sx={{
-                      color: "primary.main",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Entrar
-                  </Typography>
-                </Stack>
-              }
-            />
+            <AuthRegisterForm />
+            <Stack direction="row" justifyContent={"center"} mt={3} spacing={1}>
+              <Typography color="textSecondary" fontWeight="400" variant="h6">
+                Já tem uma conta?
+              </Typography>
+              <Typography
+                component={Link}
+                fontWeight="500"
+                href="/entrar"
+                sx={{
+                  color: "primary.main",
+                  textDecoration: "none",
+                }}
+              >
+                Entrar
+              </Typography>
+            </Stack>
           </Card>
         </Grid>
       </Grid>

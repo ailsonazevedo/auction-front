@@ -1,10 +1,9 @@
 import { API_URL_BASE } from "@/constants/services";
+import { defineRulesFor } from "@/utils/ability/defineFor";
 import { AnyAbility } from "@casl/ability";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import "server-only";
-
-import { defineRulesFor } from "../ability/defineFor";
 
 const getPermissions = async () => {
   const token = await cookies().get("access_token");

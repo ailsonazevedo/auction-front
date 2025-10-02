@@ -1,4 +1,4 @@
-import { ICreateUser } from "@/@types/user/IUser";
+import { ICreateUser } from "@/@types/user/IProfile";
 import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/AlertErrorWithRealod";
 import { SubmitButtons } from "@/components/@shared/Button/SubmitButton";
 import { CustomTextField } from "@/components/@shared/CustomTextField/CustomTextField";

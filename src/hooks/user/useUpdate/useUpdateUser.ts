@@ -1,4 +1,4 @@
-import { IUpdateUser } from "@/@types/user/IUser";
+import { IUpdateProfile } from "@/@types/user/IProfile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
 
 type TMutationFn = {
-  data: Partial<IUpdateUser>;
+  data: Partial<IUpdateProfile>;
   id: string;
 };
 
