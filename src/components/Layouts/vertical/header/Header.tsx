@@ -1,6 +1,7 @@
 "use client";
 import Logo from "@/components/@shared/Logo/Logo";
 import { Navigation } from "@/components/Layouts/vertical/header/Navigation/Navigation";
+import Notifications from "@/components/Layouts/vertical/header/Notifications/Notifications";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -36,6 +37,7 @@ const Header = () => {
         {/*<TogleSidebar />*/}
         <Box flexGrow={1} />
         <Navigation />
+        <Notifications />
         <RightSideHeader />
       </Toolbar>
     </AppBar>

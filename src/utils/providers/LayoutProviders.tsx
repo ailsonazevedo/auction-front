@@ -1,3 +1,4 @@
+import { SocketProvider } from "@/utils/providers/SocketProvider";
 import { CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
@@ -6,7 +7,6 @@ import { Toaster } from "react-hot-toast";
 import AbilityProvider from "./AbilityProvider";
 import { ReactqueryProvider } from "./ReactqueryProvider";
 import { SidebarStoreProvider } from "./SidebarStoreProvider";
-// import { SocketProvider } from "./SocketProvider";
 import ClientThemeProvider from "./ThemeProvider";
 
 const TOAST_CONTAINER_STYLE = {
@@ -29,6 +29,7 @@ const LayoutProviders = ({ children }: React.PropsWithChildren<{}>) => {
       <ReactqueryProvider>
         <AbilityProvider>
           <SidebarStoreProvider>
+            <SocketProvider>
               <ClientThemeProvider>
                 <Toaster
                   containerStyle={TOAST_CONTAINER_STYLE}
@@ -58,6 +59,7 @@ const LayoutProviders = ({ children }: React.PropsWithChildren<{}>) => {
                 </NuqsAdapter>
                 <CssBaseline />
               </ClientThemeProvider>
+            </SocketProvider>
           </SidebarStoreProvider>
         </AbilityProvider>
       </ReactqueryProvider>

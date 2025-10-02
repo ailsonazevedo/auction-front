@@ -1,6 +1,7 @@
 "use client";
 import Scrollbar from "@/components/@shared/Scrollbar/Scrollbar";
 import { formatRelativeTime } from "@/utils/functions/@shared/formatRelativeTime";
+import { useSocket } from "@/utils/providers/SocketProvider";
 import { DoneAll } from "@mui/icons-material";
 import {
   Badge,
@@ -23,6 +24,7 @@ const Notifications = () => {
   >(null);
   // const { notifications, removeNotification } = useNotificationStore();
   // const { mutate: markAsRead } = useMarkNotificationAsRead();
+  const { notifications } = useSocket() || { notifications: [] };
 
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
@@ -55,7 +57,7 @@ const Notifications = () => {
         onClick={handleClick2}
         size="large"
         sx={{
-          color: anchorEl2 ? "text.secondary" : "user.header.color",
+          color: "text.secondary",
         }}
       >
         <Badge
@@ -159,7 +161,7 @@ const Notifications = () => {
                         disableElevation
                         disabled={loadingNotificationId !== null}
                         endIcon={<DoneAll />}
-                        onClick={() => handleMarkAsRead(notification.logId)}
+                        // onClick={() => handleMarkAsRead(notification.logId)}
                         size="small"
                         variant="text"
                       >
