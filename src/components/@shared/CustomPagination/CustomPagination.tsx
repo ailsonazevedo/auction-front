@@ -13,7 +13,7 @@ interface Props extends Omit<PaginationProps, "count"> {
 const CustomPagination = ({ countPages, route }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const page = parseInt(searchParams.get("page") || "1", 10);
+  const page = parseInt(searchParams.get("page") ?? "1", 10);
 
   const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     const params = new URLSearchParams(searchParams);
