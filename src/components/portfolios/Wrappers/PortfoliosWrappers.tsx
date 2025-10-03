@@ -7,15 +7,7 @@ import { useGetAllPortfolios } from "@/hooks/portfolios/useGet/useGetAllPortfoli
 import { moneyMaskFromNumber } from "@/utils/functions/@shared/masks/moneyMask";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  IconButton,
-  Link,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, Grid, IconButton, Typography } from "@mui/material";
 import moment from "moment";
 import { parseAsString, useQueryState } from "nuqs";
 import { useState } from "react";
@@ -71,18 +63,16 @@ const PortfoliosWrappers = () => {
         {portfoliosResult?.items.map((portfolio, i) => (
           <Grid item key={portfolio.id} lg={3} md={4} sm={6} xs={12}>
             <Card sx={{ flex: 2, m: 2, p: 2 }} variant="outlined">
-              <Link href={`/portfolios/${portfolio.id}`} underline="none">
-                <Typography
-                  color="textSecondary"
-                  component="div"
-                  fontWeight="bold"
-                  mb={2}
-                  textAlign={"start"}
-                  variant="h6"
-                >
-                  {portfolio.name}
-                </Typography>
-              </Link>
+              <Typography
+                color="textSecondary"
+                component="div"
+                fontWeight="bold"
+                mb={2}
+                textAlign={"start"}
+                variant="h6"
+              >
+                {portfolio.name}
+              </Typography>
               <Typography
                 component="div"
                 gutterBottom
@@ -149,7 +139,7 @@ const PortfoliosWrappers = () => {
         ))}
       </Grid>
       <Box display="flex" justifyContent="center" mb={2} mt={4}>
-        <CustomPagination countPages={countPages} route={"/portfolios"} />
+        <CustomPagination countPages={countPages} route={"/carteiras"} />
       </Box>
       <SimpleModal
         onClose={() => {

@@ -24,7 +24,7 @@ const Navigation = () => {
         <Button
           color="inherit"
           component={Link}
-          href="/portfolios"
+          href="/carteiras"
           sx={{
             color: (theme) => theme.palette.text.secondary,
             px: { sm: 1.5, xs: 1 },
@@ -44,6 +44,18 @@ const Navigation = () => {
           variant="text"
         >
           Meus Lances
+        </Button>
+        <Button
+          color="inherit"
+          component={Link}
+          href="/gerenciar-leiloes"
+          sx={{
+            color: (theme) => theme.palette.text.secondary,
+            px: { sm: 1.5, xs: 1 },
+          }}
+          variant="text"
+        >
+          Gerenciar Leilões
         </Button>
         {!isLoggedIn && (
           <Button

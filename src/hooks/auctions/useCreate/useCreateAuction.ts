@@ -1,4 +1,4 @@
-import { IPortfolio } from "@/@types/portfolio/IPortfolio";
+import { TCreateAuction } from "@/@types/auction/IAuction";
 import { AUCTIONS } from "@/services/apiService/endpoints/auction";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -6,14 +6,14 @@ import toast from "react-hot-toast";
 function useCreateAuction() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: IPortfolio) => {
+    mutationFn: async (data: TCreateAuction) => {
       const response = await AUCTIONS.create(data);
       return Promise.resolve(response);
     },
-    onError: async (error: any) => {
+    onError: async () => {
       toast.error("Algo deu errado");
     },
-    onSettled: () => queryClient.invalidateQueries(),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["auctions"] }),
     onSuccess: () => {
       toast.success("Leilão criado com sucesso");
     },

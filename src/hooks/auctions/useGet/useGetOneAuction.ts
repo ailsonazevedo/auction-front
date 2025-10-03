@@ -6,7 +6,7 @@ function useGetOneAuction(id: string) {
   const { getOne } = AUCTIONS;
 
   return useQuery({
-    enabled: !!id && id !== "",
+    enabled: !!id,
     queryFn: async (): Promise<TAuction> => {
       const requests = await getOne(id);
       return requests;

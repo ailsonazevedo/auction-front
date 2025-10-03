@@ -11,3 +11,5 @@ export interface IAuction {
 export type TAuction = {
   portfolio: TPortfolio;
 } & IAuction;
+
+export type TCreateAuction = Pick<IAuction, "portfolio_id" | "status">;
