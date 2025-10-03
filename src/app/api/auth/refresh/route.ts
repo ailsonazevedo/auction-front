@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const response = await fetch(
-      `${API_URL_BASE}${API_RESOURCE_AUTH}/refresh-tokens`,
+      `${API_URL_BASE}${API_RESOURCE_AUTH}/refresh`,
       {
         body: JSON.stringify({
           refresh_token: refresh_token,

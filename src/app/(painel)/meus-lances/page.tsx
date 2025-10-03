@@ -1,19 +1,15 @@
-import { defineRulesFor } from "@/utils/ability/defineFor";
-import { getPermissions } from "@/utils/auth/auth";
+import { WrapperBids } from "@/components/bid/Wrappers/WrapperBids";
+import { hasAuth } from "@/utils/auth/auth";
+import { Box } from "@mui/material";
 
 const Page = async () => {
-  const permissions = await getPermissions();
-  const ability = defineRulesFor(permissions ?? []);
+  await hasAuth(["view_own_bid_history"]);
 
   return (
-    <div>
+    <Box>
       <h1>Meus lances</h1>
-      {ability.can("view_own_bid_history", "all") ? (
-        <p>Você tem permissão para ver esta seção.</p>
-      ) : (
-        <p>Você não tem permissão para ver esta seção.</p>
-      )}
-    </div>
+      <WrapperBids />
+    </Box>
   );
 };
 

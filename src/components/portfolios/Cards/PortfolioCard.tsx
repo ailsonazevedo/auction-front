@@ -9,7 +9,7 @@ interface Props {
 const PortfolioCard = ({ portfolio }: Props) => {
   return (
     <Card sx={{ flex: 2, m: 2, p: 2 }} variant="outlined">
-      <Link href="#">
+      <Link href={`/portfolios/${portfolio.id}`} underline="none">
         <Typography
           color="textSecondary"
           component="div"

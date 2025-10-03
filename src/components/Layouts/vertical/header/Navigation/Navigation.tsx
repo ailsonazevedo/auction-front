@@ -24,6 +24,18 @@ const Navigation = () => {
         <Button
           color="inherit"
           component={Link}
+          href="/portfolios"
+          sx={{
+            color: (theme) => theme.palette.text.secondary,
+            px: { sm: 1.5, xs: 1 },
+          }}
+          variant="text"
+        >
+          Carteiras
+        </Button>
+        <Button
+          color="inherit"
+          component={Link}
           href="/meus-lances"
           sx={{
             color: (theme) => theme.palette.text.secondary,

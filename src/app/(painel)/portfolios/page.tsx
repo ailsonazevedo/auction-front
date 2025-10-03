@@ -1,4 +1,4 @@
-import { WrapperListAuctions } from "@/components/auction/Wrappers/WrapperListAuctions";
+import { PortfoliosWrappers } from "@/components/portfolios/Wrappers/PortfoliosWrappers";
 import { Skeleton } from "@mui/material";
 import { Suspense } from "react";
 
@@ -7,7 +7,7 @@ function Page() {
     <Suspense
       fallback={<Skeleton height="200px" variant="rounded" width="100%" />}
     >
-      <WrapperListAuctions />
+      <PortfoliosWrappers />
     </Suspense>
   );
 }

@@ -14,15 +14,28 @@ import React, {
   useState,
 } from "react";
 
-interface AuctionData {
-  new_bid: string;
-  portfolio_id: string;
+type AuctionHistoryBid = {
+  bid_amount: number;
+  created_at: string;
+  id: string;
+  name?: string;
   profile_id: string;
-}
+};
+
+// AuctionData pode ser um histórico ou um novo lance
+export type AuctionData =
+  | {
+      auction_id: string;
+      name: string;
+      new_bid: string;
+      profile_id: string;
+      type: "send_auction_message";
+    }
+  | { bids: AuctionHistoryBid[]; type: "history" };
 
 interface SocketContextType {
   auctionData: AuctionData | null;
-  connectAuction: (portfolioId: string) => void;
+  connectAuction: (auctionId: string) => void;
   emit: (event: string, data?: any) => void;
   isConnected: boolean;
   notifications: INotification[];
@@ -53,12 +66,21 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        setNotifications((prev) => {
-          if (prev.some((n) => n.logId === data.logId)) return prev;
-          return [data, ...prev];
-        });
-        addNotification(data);
-      } catch {}
+        console.log("[WS Notification] Mensagem recebida:", data);
+        if (!data?.type || !data?.content) return;
+        const notification = {
+          content: data.content,
+          logId: Date.now(),
+          read_at: null,
+          sent_at: new Date().toISOString(),
+          type: data.type,
+          was_read: false,
+        };
+        setNotifications((prev) => [notification, ...prev]);
+        addNotification(notification);
+      } catch (err) {
+        console.error("Erro ao processar notificação WS:", err);
+      }
     };
     ws.onopen = () => setIsConnected(true);
     ws.onclose = () => setIsConnected(false);
@@ -66,19 +88,35 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
   }, [addNotification]);
 
   // Função para conectar ao WebSocket do leilão
-  const connectAuction = useCallback(async (portfolioId: string) => {
+  const connectAuction = useCallback(async (auctionId: string) => {
     const tokens = await getTokens();
     if (!tokens?.access_token) return;
     if (auctionWS.current) auctionWS.current.close();
-    const ws = createAuctionWebSocket(tokens.access_token, portfolioId);
+    const ws = createAuctionWebSocket(tokens.access_token, auctionId);
+    ws.onopen = () => {
+      setIsConnected(true);
+      console.log("WebSocket aberto");
+    };
+    ws.onclose = (e) => {
+      setIsConnected(false);
+      console.log("WebSocket fechado", e);
+    };
+    ws.onerror = (e) => {
+      console.error("WebSocket erro", e);
+    };
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        setAuctionData(data);
-      } catch {}
+        console.log("Mensagem WS:", data);
+        if (data.type === "history") {
+          setAuctionData({ bids: data.bids, type: "history" });
+        } else if (data.type === "send_auction_message" && data.content) {
+          setAuctionData({ type: "send_auction_message", ...data.content });
+        }
+      } catch (err) {
+        console.error("Erro ao processar mensagem WS:", err);
+      }
     };
-    ws.onopen = () => setIsConnected(true);
-    ws.onclose = () => setIsConnected(false);
     auctionWS.current = ws;
   }, []);
 

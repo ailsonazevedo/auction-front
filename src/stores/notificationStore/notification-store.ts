@@ -12,14 +12,17 @@ interface NotificationStore {
 export const useNotificationStore = create<NotificationStore>((set) => ({
   addNotification: (notification) =>
     set((state) => {
-      if (state.notifications.some((n) => n.logId === notification.logId)) return state;
+      if (state.notifications.some((n) => n.logId === notification.logId))
+        return state;
       return { notifications: [notification, ...state.notifications] };
     }),
   clearNotifications: () => set({ notifications: [] }),
   markAsRead: (logId) =>
     set((state) => ({
       notifications: state.notifications.map((n) =>
-        n.logId === logId ? { ...n, read_at: new Date().toISOString(), was_read: true } : n
+        n.logId === logId
+          ? { ...n, read_at: new Date().toISOString(), was_read: true }
+          : n,
       ),
     })),
   notifications: [],
@@ -28,4 +31,3 @@ export const useNotificationStore = create<NotificationStore>((set) => ({
       notifications: state.notifications.filter((n) => n.logId !== logId),
     })),
 }));
-

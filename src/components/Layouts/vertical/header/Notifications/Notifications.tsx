@@ -1,7 +1,7 @@
 "use client";
 import Scrollbar from "@/components/@shared/Scrollbar/Scrollbar";
+import { useNotificationStore } from "@/stores/notificationStore/notification-store";
 import { formatRelativeTime } from "@/utils/functions/@shared/formatRelativeTime";
-import { useSocket } from "@/utils/providers/SocketProvider";
 import { DoneAll } from "@mui/icons-material";
 import {
   Badge,
@@ -22,9 +22,9 @@ const Notifications = () => {
   const [loadingNotificationId, setLoadingNotificationId] = useState<
     null | number
   >(null);
-  // const { notifications, removeNotification } = useNotificationStore();
+  const { notifications, removeNotification } = useNotificationStore();
   // const { mutate: markAsRead } = useMarkNotificationAsRead();
-  const { notifications } = useSocket() || { notifications: [] };
+  // const { notifications } = useSocket() || { notifications: [] };
 
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
@@ -126,7 +126,7 @@ const Notifications = () => {
                         }}
                         variant="subtitle2"
                       >
-                        {notification.message_title}
+                        {notification.content?.title ?? "Atualização"}
                       </Typography>
                       <Typography
                         color="textSecondary"
@@ -149,7 +149,7 @@ const Notifications = () => {
                       }}
                       variant="body2"
                     >
-                      {notification.message_content}
+                      {notification.content?.message ?? notification.content}
                     </Typography>{" "}
                     <Box
                       display="flex"
