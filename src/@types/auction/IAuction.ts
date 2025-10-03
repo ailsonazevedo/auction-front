@@ -1,4 +1,4 @@
-import { IPortfolio } from "@/@types/portfolio/IPortfolio";
+import { TPortfolio } from "@/@types/portfolio/IPortfolio";
 
 export interface IAuction {
   created_at: string;
@@ -9,5 +9,5 @@ export interface IAuction {
 }
 
 export type TAuction = {
-  portfolio: IPortfolio;
+  portfolio: TPortfolio;
 } & IAuction;

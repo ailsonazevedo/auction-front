@@ -2,7 +2,8 @@ import { PortfoliosWrappers } from "@/components/portfolios/Wrappers/PortfoliosW
 import { Skeleton } from "@mui/material";
 import { Suspense } from "react";
 
-function Page() {
+const Page = async () => {
+  // await hasAuth(["create_portfolio"]);
   return (
     <Suspense
       fallback={<Skeleton height="200px" variant="rounded" width="100%" />}
@@ -10,6 +11,6 @@ function Page() {
       <PortfoliosWrappers />
     </Suspense>
   );
-}
+};
 
 export default Page;

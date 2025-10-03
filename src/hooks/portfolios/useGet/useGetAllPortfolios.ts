@@ -1,6 +1,6 @@
 import { IPagination } from "@/@types/IPagination";
 import { IResponse } from "@/@types/IResponse";
-import { IPortfolio } from "@/@types/portfolio/IPortfolio";
+import { TPortfolio } from "@/@types/portfolio/IPortfolio";
 import { PORTFOLIOS } from "@/services/apiService/endpoints/portfolio";
 import { useQuery } from "@tanstack/react-query";
 
@@ -14,7 +14,7 @@ function useGetAllPortfolios(pagination?: IPagination) {
   const urlFilter = `?${paginationFilter}`;
 
   return useQuery({
-    queryFn: async (): Promise<IResponse<IPortfolio>> => {
+    queryFn: async (): Promise<IResponse<TPortfolio>> => {
       const requests = await getList(urlFilter);
       return requests;
     },

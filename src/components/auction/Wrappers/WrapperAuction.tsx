@@ -98,7 +98,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
     setBidValue("");
   };
 
-  const isConnected = true; // Substitua pela lógica real de conexão
+  const canCreateBid = auctionResult?.status === "open";
 
   return (
     <Box p={4}>
@@ -112,8 +112,8 @@ const WrapperAuction = ({ auctionId }: Props) => {
         </Avatar>
         Leilão em tempo real
         <Chip
-          color={isConnected ? "success" : "default"}
-          label={isConnected ? "AO VIVO" : "OFFLINE"}
+          color={auctionResult?.status === "open" ? "success" : "default"}
+          label={auctionResult?.status === "open" ? "AO VIVO" : "OFFLINE"}
           sx={{ ml: 2 }}
         />
       </Typography>
@@ -143,15 +143,6 @@ const WrapperAuction = ({ auctionId }: Props) => {
                   {auctionResult?.portfolio?.description || "-"}
                 </Typography>
                 <Typography>
-                  <b>Status:</b>{" "}
-                  <Chip
-                    color={
-                      auctionResult?.status === "open" ? "success" : "warning"
-                    }
-                    label={auctionResult?.status || "Desconhecido"}
-                  />
-                </Typography>
-                <Typography>
                   <b>Início:</b>{" "}
                   {auctionResult?.created_at
                     ? new Date(auctionResult.created_at).toLocaleString()
@@ -174,6 +165,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
               <Grid alignItems="center" container spacing={1}>
                 <Grid item xs={8}>
                   <TextField
+                    disabled={!canCreateBid}
                     fullWidth
                     label="Valor do lance"
                     onChange={(e) => setBidValue(e.target.value)}
@@ -185,6 +177,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
                 <Grid item xs={4}>
                   <Button
                     color="primary"
+                    disabled={!canCreateBid}
                     fullWidth
                     onClick={handleBid}
                     variant="contained"

@@ -3,7 +3,7 @@ import { PORTFOLIOS } from "@/services/apiService/endpoints/portfolio";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-const useUpdatePortfolio = () => {
+const useUpdatePortfolio = (invalidateQuery: string[]) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -19,9 +19,10 @@ const useUpdatePortfolio = () => {
     onError: async (error: any) => {
       toast.error("Algo deu errado");
     },
-    onSettled: () => queryClient.invalidateQueries(),
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: invalidateQuery }),
     onSuccess: () => {
-      toast.success("Grupo atualizado com sucesso");
+      toast.success("Carteira atualizada com sucesso");
     },
   });
 };
