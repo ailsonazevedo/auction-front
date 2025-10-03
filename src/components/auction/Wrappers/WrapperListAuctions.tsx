@@ -1,10 +1,15 @@
 "use client";
 import { IPagination } from "@/@types/IPagination";
+import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/AlertErrorWithRealod";
 import { CustomPagination } from "@/components/@shared/CustomPagination/CustomPagination";
+import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
 import { useGetAllAuctions } from "@/hooks/auctions/useGet/useGetAllAuctions";
 import { moneyMaskFromNumber } from "@/utils/functions/@shared/masks/moneyMask";
-import { Box, Card, Grid, Link, Typography } from "@mui/material";
+import { Box, Card, Chip, Grid, Link, Typography } from "@mui/material";
+import moment from "moment/moment";
 import { parseAsString, useQueryState } from "nuqs";
+
+moment.locale("pt-br");
 
 const WrapperListAuctions = () => {
   const [page] = useQueryState(
@@ -26,11 +31,23 @@ const WrapperListAuctions = () => {
   );
 
   if (isLoadingAuctions) {
-    return <Typography>Carregando...</Typography>;
+    return <LoadingSkeleton />;
   }
 
   if (isErrorAuctions) {
-    return <Typography>Erro ao carregar as carteiras.</Typography>;
+    return (
+      <Box>
+        <AlertErrorWithReload invalidateQuery={["auctions"]} />
+      </Box>
+    );
+  }
+
+  if ((auctionsResult?.items ?? []).length === 0) {
+    return (
+      <Typography textAlign={"center"} variant="h6">
+        Nenhum leilão disponível no momento.
+      </Typography>
+    );
   }
 
   return (
@@ -61,6 +78,11 @@ const WrapperListAuctions = () => {
                   {auction.portfolio.name}
                 </Typography>
               </Link>
+              <Chip
+                color={auction.status === "open" ? "success" : "error"}
+                label={auction.status === "open" ? "Aberto" : "Fechado"}
+                size="small"
+              />
               <Typography
                 component="div"
                 gutterBottom
@@ -100,7 +122,9 @@ const WrapperListAuctions = () => {
                 variant="caption"
               >
                 Leilão termina em:{" "}
-                {new Date(auction.portfolio.auction_end).toLocaleString()}
+                {moment
+                  .utc(auction.portfolio.auction_end)
+                  .format("DD/MM/YYYY [às] HH:mm[h]")}
               </Typography>
             </Card>
           </Grid>

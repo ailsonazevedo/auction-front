@@ -1,5 +1,8 @@
 "use client";
 
+import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
+import { SimpleModal } from "@/components/@shared/Modal/SimpleModal";
+import { BidForm } from "@/components/bid/Forms/BidForm";
 import { useGetOneAuction } from "@/hooks/auctions/useGet/useGetOneAuction";
 import { moneyMaskFromNumber } from "@/utils/functions/@shared/masks/moneyMask";
 import { useSocket } from "@/utils/providers/SocketProvider";
@@ -18,10 +21,12 @@ import {
   ListItemText,
   Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
+
+moment.locale("pt-br");
 
 interface Props {
   auctionId: string;
@@ -37,7 +42,8 @@ interface BidHistoryItem {
 }
 
 const WrapperAuction = ({ auctionId }: Props) => {
-  const { auctionData, connectAuction, notifications } = useSocket() || {};
+  const [openModal, setOpenModal] = useState(false);
+  const { auctionData, connectAuction } = useSocket() || {};
   const { data: auctionResult } = useGetOneAuction(auctionId);
   const [bidValue, setBidValue] = useState("");
   const [bidHistory, setBidHistory] = useState<BidHistoryItem[]>([]);
@@ -79,10 +85,10 @@ const WrapperAuction = ({ auctionId }: Props) => {
   const currentBid =
     bidHistory.length > 0
       ? bidHistory[0].value
-      : auctionResult?.portfolio?.minimum_bid || "-";
+      : (auctionResult?.portfolio?.minimum_bid ?? "-");
   const currentBidder =
     bidHistory.length > 0
-      ? bidHistory[0].name || bidHistory[0].profile_id
+      ? (bidHistory[0].name ?? bidHistory[0].profile_id)
       : null;
 
   const handleBid = () => {
@@ -112,8 +118,8 @@ const WrapperAuction = ({ auctionId }: Props) => {
         </Avatar>
         Leilão em tempo real
         <Chip
-          color={auctionResult?.status === "open" ? "success" : "default"}
-          label={auctionResult?.status === "open" ? "AO VIVO" : "OFFLINE"}
+          color={auctionResult?.status === "open" ? "success" : "error"}
+          label={auctionResult?.status === "open" ? "AO VIVO" : "ENCERRADO"}
           sx={{ ml: 2 }}
         />
       </Typography>
@@ -150,36 +156,23 @@ const WrapperAuction = ({ auctionId }: Props) => {
                 </Typography>
                 <Typography>
                   <b>Fim:</b>{" "}
-                  {auctionResult?.portfolio.auction_end
-                    ? new Date(
-                        auctionResult.portfolio.auction_end,
-                      ).toLocaleString()
-                    : "-"}
+                  {moment
+                    .utc(auctionResult?.portfolio.auction_end)
+                    .local()
+                    .format("DD/MM/YYYY [às] HH:mm[h]")}
                 </Typography>
               </Stack>
             ) : (
-              <Typography>Carregando detalhes do portfólio...</Typography>
+              <LoadingSkeleton />
             )}
             <Box mt={3}>
-              <Typography variant="h6">Fazer um lance</Typography>
               <Grid alignItems="center" container spacing={1}>
-                <Grid item xs={8}>
-                  <TextField
-                    disabled={!canCreateBid}
-                    fullWidth
-                    label="Valor do lance"
-                    onChange={(e) => setBidValue(e.target.value)}
-                    size="small"
-                    type="number"
-                    value={bidValue}
-                  />
-                </Grid>
                 <Grid item xs={4}>
                   <Button
                     color="primary"
                     disabled={!canCreateBid}
                     fullWidth
-                    onClick={handleBid}
+                    onClick={() => setOpenModal(true)}
                     variant="contained"
                   >
                     Dar lance
@@ -244,6 +237,18 @@ const WrapperAuction = ({ auctionId }: Props) => {
           </Card>
         </Grid>
       </Grid>
+      <SimpleModal
+        onClose={() => setOpenModal(false)}
+        open={openModal}
+        title="Dar um Lance"
+      >
+        <BidForm
+          auctionId={auctionId}
+          onClose={() => {
+            setOpenModal(false);
+          }}
+        />
+      </SimpleModal>
     </Box>
   );
 };

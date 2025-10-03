@@ -2,7 +2,9 @@
 
 import { IPagination } from "@/@types/IPagination";
 import { TAuction } from "@/@types/auction/IAuction";
+import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/AlertErrorWithRealod";
 import { CustomPagination } from "@/components/@shared/CustomPagination/CustomPagination";
+import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
 import { SimpleModal } from "@/components/@shared/Modal/SimpleModal";
 import { AuctionForm } from "@/components/auction/Forms/AuctionForm";
 import { useDeleteAuction } from "@/hooks/auctions/useDelete/useDeleteAuction";
@@ -42,8 +44,8 @@ const ManageAuctionsWrapper = () => {
 
   const {
     data: auctionsResp,
-    isError,
-    isLoading,
+    isError: isErrorAuctions,
+    isLoading: isLoadingAuctions,
   } = useGetAllAuctions(pagination);
 
   const { mutateAsync: deleteAuction } = useDeleteAuction(["auctions"]);
@@ -60,6 +62,14 @@ const ManageAuctionsWrapper = () => {
     if (!confirmed) return;
     await deleteAuction(auction.id);
   };
+
+  if ((auctionsResp?.items ?? []).length === 0) {
+    return (
+      <Typography textAlign={"center"} variant="h6">
+        Nenhum leilão cadastrado.
+      </Typography>
+    );
+  }
 
   return (
     <Box mt={4} px={2}>
@@ -82,8 +92,12 @@ const ManageAuctionsWrapper = () => {
         </Button>
       </Stack>
 
-      {isLoading && <Typography>Carregando...</Typography>}
-      {isError && <Typography>Erro ao carregar os leilões.</Typography>}
+      {isLoadingAuctions && <LoadingSkeleton />}
+      {isErrorAuctions && (
+        <Box>
+          <AlertErrorWithReload invalidateQuery={["auctions"]} />
+        </Box>
+      )}
 
       <Grid container spacing={3}>
         {auctionsResp?.items.map((auction) => (
@@ -94,7 +108,7 @@ const ManageAuctionsWrapper = () => {
                   {auction.portfolio.name}
                 </Typography>
                 <Chip
-                  color={auction.status === "open" ? "success" : "default"}
+                  color={auction.status === "open" ? "success" : "error"}
                   label={auction.status === "open" ? "Aberto" : "Fechado"}
                   size="small"
                 />
@@ -113,6 +127,12 @@ const ManageAuctionsWrapper = () => {
                   .utc(auction.updated_at)
                   .local()
                   .format("DD/MM/YYYY HH:mm")}
+              </Typography>
+              <Typography variant="body2">
+                Término do leilão:{" "}
+                {moment
+                  .utc(auction.portfolio.auction_end)
+                  .format("DD/MM/YYYY [às] HH:mm[h]")}
               </Typography>
 
               <Stack
