@@ -1,10 +1,11 @@
 "use client";
+import { ADMIN_PERMISSIONS, USER_PERMISSIONS } from "@/constants/permissions";
+import { Can } from "@/utils/providers/AbilityProvider";
 import { Box, Button, Stack, useMediaQuery } from "@mui/material";
 import Link from "next/link";
 
 const Navigation = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
-  const isLoggedIn = true;
 
   return (
     <Box display="flex" flexDirection="column">
@@ -21,56 +22,48 @@ const Navigation = () => {
         >
           Início
         </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          href="/carteiras"
-          sx={{
-            color: (theme) => theme.palette.text.secondary,
-            px: { sm: 1.5, xs: 1 },
-          }}
-          variant="text"
-        >
-          Carteiras
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          href="/meus-lances"
-          sx={{
-            color: (theme) => theme.palette.text.secondary,
-            px: { sm: 1.5, xs: 1 },
-          }}
-          variant="text"
-        >
-          Meus Lances
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          href="/gerenciar-leiloes"
-          sx={{
-            color: (theme) => theme.palette.text.secondary,
-            px: { sm: 1.5, xs: 1 },
-          }}
-          variant="text"
-        >
-          Gerenciar Leilões
-        </Button>
-        {!isLoggedIn && (
+        <Can I={ADMIN_PERMISSIONS.CREATE_PORTFOLIO} a={"all"}>
           <Button
-            aria-label="Login"
             color="inherit"
-            href="/entrar"
+            component={Link}
+            href="/carteiras"
             sx={{
               color: (theme) => theme.palette.text.secondary,
-              minWidth: 0,
-              px: { sm: 1, xs: 0.5 },
+              px: { sm: 1.5, xs: 1 },
             }}
+            variant="text"
           >
-            Login
+            Carteiras
           </Button>
-        )}
+        </Can>
+        <Can I={USER_PERMISSIONS.VIEW_OWN_BID_HISTORY} a={"all"}>
+          <Button
+            color="inherit"
+            component={Link}
+            href="/meus-lances"
+            sx={{
+              color: (theme) => theme.palette.text.secondary,
+              px: { sm: 1.5, xs: 1 },
+            }}
+            variant="text"
+          >
+            Meus Lances
+          </Button>
+        </Can>
+        <Can I={ADMIN_PERMISSIONS.CREATE_AUCTION} a={"all"}>
+          <Button
+            color="inherit"
+            component={Link}
+            href="/gerenciar-leiloes"
+            sx={{
+              color: (theme) => theme.palette.text.secondary,
+              px: { sm: 1.5, xs: 1 },
+            }}
+            variant="text"
+          >
+            Gerenciar Leilões
+          </Button>
+        </Can>
       </Stack>
     </Box>
   );
