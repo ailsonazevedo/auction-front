@@ -10,6 +10,10 @@ export const defineRulesFor = (permissions: IPermission[]) => {
 
   permissions.forEach((permission) => {
     if (permission) {
+      if (permission.name === "manage") {
+        can("manage", "all");
+        return;
+      }
       can(permission.name, "all");
     }
   });

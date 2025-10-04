@@ -124,6 +124,7 @@ const WrapperListAuctions = () => {
                 Leilão termina em:{" "}
                 {moment
                   .utc(auction.portfolio.auction_end)
+                  .local()
                   .format("DD/MM/YYYY [às] HH:mm[h]")}
               </Typography>
             </Card>

@@ -112,6 +112,7 @@ const PortfoliosWrappers = () => {
                 Expira em:{" "}
                 {moment
                   .utc(portfolio.auction_end)
+                  .local()
                   .format("DD/MM/YYYY [às] HH:mm[h]")}
               </Typography>
               <Box display="flex" gap={1} justifyContent="flex-end" mt={1}>

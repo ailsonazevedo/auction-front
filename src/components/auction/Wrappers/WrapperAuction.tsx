@@ -93,7 +93,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
         variant="h4"
       >
         <Avatar sx={{ bgcolor: "primary.main" }}>
-          {auctionResult?.portfolio?.name?.[0] || "L"}
+          {auctionResult?.portfolio?.name?.[0] ?? "L"}
         </Avatar>
         Leilão em tempo real
         <Chip

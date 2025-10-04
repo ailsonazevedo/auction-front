@@ -132,6 +132,7 @@ const ManageAuctionsWrapper = () => {
                 Término do leilão:{" "}
                 {moment
                   .utc(auction.portfolio.auction_end)
+                  .local()
                   .format("DD/MM/YYYY [às] HH:mm[h]")}
               </Typography>
 

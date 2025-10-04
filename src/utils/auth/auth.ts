@@ -1,3 +1,4 @@
+import { IPermission } from "@/@types/auth/IPermission";
 import { API_URL_BASE } from "@/constants/services";
 import { defineRulesFor } from "@/utils/ability/defineFor";
 import { AnyAbility } from "@casl/ability";
@@ -20,16 +21,16 @@ const getPermissions = async () => {
     });
     if (!response.ok) throw new Error();
     const data = await response.json();
-    return data.permissions ?? [];
+    return data ?? [];
   } catch (err) {
     return null;
   }
 };
 
-const checkPermissions = (perms: string[], ability: AnyAbility) => {
-  return perms.some((perm) => ability.can(perm, "all"));
+const checkPermissions = (perms: IPermission[], ability: AnyAbility) => {
+  return perms.some((perm) => ability.can(perm.name, "all"));
 };
-const hasAuth = async (perms: string[]) => {
+const hasAuth = async (perms: IPermission[]) => {
   const permissions = await getPermissions();
   if (permissions === null) return null;
 

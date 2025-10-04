@@ -55,8 +55,11 @@ const CustomDataTimePickerInput = ({
             if (!value) {
               formik.setFieldValue(name, "", true);
             } else {
-              // Salva sempre em UTC ISO string
-              formik.setFieldValue(name, moment(value).utc().format(), true);
+              formik.setFieldValue(
+                name,
+                moment(value).utc().local().format(),
+                true,
+              );
             }
           }}
           slotProps={{
@@ -75,7 +78,9 @@ const CustomDataTimePickerInput = ({
               variant: "outlined",
             },
           }}
-          value={formik.values[name] ? moment.utc(formik.values[name]) : null}
+          value={
+            formik.values[name] ? moment.utc(formik.values[name]).local() : null
+          }
         />
       </Box>
     </LocalizationProvider>

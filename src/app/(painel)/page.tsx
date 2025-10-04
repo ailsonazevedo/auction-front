@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
+
 import { WrapperListAuctions } from "@/components/auction/Wrappers/WrapperListAuctions";
 import { Skeleton } from "@mui/material";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Leilões ao vivo - Auction",
+};
 
 function Page() {
   return (

@@ -1,8 +1,7 @@
 import { IPermission } from "@/@types/auth/IPermission";
+import { PERMISSIONS } from "@/services/apiService/endpoints/auth/permissions";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-
-import { PERMISSIONS } from "../../../services/apiService/endpoints/auth/permissions";
 
 function useGetMePermissions() {
   const pathname = usePathname();
@@ -19,7 +18,7 @@ function useGetMePermissions() {
       const requests = await getList();
       return requests;
     },
-    queryKey: ["admin", "policies", "me"], // Usado para identificar a chamada no cache
+    queryKey: ["permissions", "me"],
     refetchOnWindowFocus: false, // Não fazer o refetch involuntario quando a janela do browser for alterada e retornada
   });
 }
