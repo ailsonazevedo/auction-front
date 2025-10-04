@@ -3,9 +3,9 @@
 import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
 import { SimpleModal } from "@/components/@shared/Modal/SimpleModal";
 import { BidForm } from "@/components/bid/Forms/BidForm";
+import { useAuctionRoom } from "@/hooks/auctions/useAuctionRoom";
 import { useGetOneAuction } from "@/hooks/auctions/useGet/useGetOneAuction";
 import { moneyMaskFromNumber } from "@/utils/functions/@shared/masks/moneyMask";
-import { useSocket } from "@/utils/providers/SocketProvider";
 import {
   Avatar,
   Box,
@@ -32,7 +32,6 @@ interface Props {
   auctionId: string;
 }
 
-// Tipo local para o histórico exibido
 interface BidHistoryItem {
   id?: string;
   name?: string;
@@ -43,16 +42,9 @@ interface BidHistoryItem {
 
 const WrapperAuction = ({ auctionId }: Props) => {
   const [openModal, setOpenModal] = useState(false);
-  const { auctionData, connectAuction } = useSocket() || {};
+  const { auctionData } = useAuctionRoom(auctionId);
   const { data: auctionResult } = useGetOneAuction(auctionId);
-  const [bidValue, setBidValue] = useState("");
   const [bidHistory, setBidHistory] = useState<BidHistoryItem[]>([]);
-
-  useEffect(() => {
-    if (connectAuction && auctionId) {
-      connectAuction(auctionId);
-    }
-  }, [connectAuction, auctionId]);
 
   useEffect(() => {
     if (!auctionData) return;
@@ -81,28 +73,15 @@ const WrapperAuction = ({ auctionId }: Props) => {
     }
   }, [auctionData]);
 
-  // Valor atual do lance
   const currentBid =
     bidHistory.length > 0
       ? bidHistory[0].value
       : (auctionResult?.portfolio?.minimum_bid ?? "-");
-  const currentBidder =
+
+  const currentUserBidder =
     bidHistory.length > 0
       ? (bidHistory[0].name ?? bidHistory[0].profile_id)
       : null;
-
-  const handleBid = () => {
-    if (!bidValue) return;
-    setBidHistory((prev) => [
-      {
-        profile_id: "Você",
-        time: new Date().toLocaleTimeString(),
-        value: bidValue,
-      },
-      ...prev,
-    ]);
-    setBidValue("");
-  };
 
   const canCreateBid = auctionResult?.status === "open";
 
@@ -196,8 +175,8 @@ const WrapperAuction = ({ auctionId }: Props) => {
             <Typography color="primary.main" variant="h5">
               {moneyMaskFromNumber(Number(currentBid))}
             </Typography>
-            {currentBidder && (
-              <Chip color="info" label={`Por: ${currentBidder}`} />
+            {currentUserBidder && (
+              <Chip color="info" label={`Por: ${currentUserBidder}`} />
             )}
           </Paper>
         </Grid>
@@ -219,8 +198,8 @@ const WrapperAuction = ({ auctionId }: Props) => {
                     <ListItemText primary="Nenhum lance ainda." />
                   </ListItem>
                 )}
-                {bidHistory.map((bid, idx) => (
-                  <ListItem key={idx}>
+                {bidHistory.map((bid) => (
+                  <ListItem key={bid.id}>
                     <ListItemText
                       primary={
                         <span>

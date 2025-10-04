@@ -44,6 +44,14 @@ interface SocketContextType {
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
+export function useSocket() {
+  const ctx = React.useContext(SocketContext);
+  if (!ctx) {
+    throw new Error("useSocket deve ser usado dentro de <SocketProvider>");
+  }
+  return ctx;
+}
+
 interface SocketProviderProps {
   children: ReactNode;
 }
