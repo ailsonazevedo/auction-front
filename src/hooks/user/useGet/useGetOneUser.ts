@@ -1,7 +1,7 @@
 import { IProfile } from "@/@types/user/IProfile";
 import { useQuery } from "@tanstack/react-query";
 
-import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/auth/users";
 
 function useGetOneUser(id: string) {
   const { getOne } = PROFILES;

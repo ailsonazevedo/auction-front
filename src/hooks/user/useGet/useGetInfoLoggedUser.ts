@@ -1,7 +1,8 @@
 import { IProfile } from "@/@types/user/IProfile";
 import { getLoggedUserId } from "@/actions/get-logged-user-id";
-import { PROFILES } from "@/services/apiService/endpoints/admin/users";
 import { useQuery } from "@tanstack/react-query";
+
+import { PROFILES } from "../../../services/apiService/endpoints/auth/users";
 
 function useGetInfoLoggedUser() {
   const { getOne } = PROFILES;

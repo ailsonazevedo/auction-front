@@ -1,7 +1,8 @@
 import { IPermission } from "@/@types/auth/IPermission";
-import { PERMISSIONS } from "@/services/apiService/endpoints/admin/permissions";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
+
+import { PERMISSIONS } from "../../../services/apiService/endpoints/auth/permissions";
 
 function useGetMePermissions() {
   const pathname = usePathname();

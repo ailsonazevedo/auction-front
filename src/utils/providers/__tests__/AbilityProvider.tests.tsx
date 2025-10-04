@@ -1,4 +1,4 @@
-import { useGetMePermissions } from "@/hooks/admin/policies/useGet/useGetMePermissions";
+import { useGetMePermissions } from "@/hooks/user/useGet/useGetMePermissions";
 import { defineRulesFor } from "@/utils/ability/defineFor";
 import AbilityProvider, {
   AbilityContext,
@@ -7,7 +7,7 @@ import AbilityProvider, {
 import { PureAbility } from "@casl/ability";
 import { render, screen } from "@testing-library/react";
 
-jest.mock("@/hooks/admin/policies/useGet/useGetMePermissions");
+jest.mock("@/hooks/user/useGet/useGetMePermissions");
 jest.mock("@/utils/ability/defineFor");
 jest.mock("react-secure-storage", () => ({
   getItem: jest.fn(),

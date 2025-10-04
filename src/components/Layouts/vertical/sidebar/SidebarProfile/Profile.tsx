@@ -29,9 +29,6 @@ const Profile = () => {
     QueryClient.removeQueries();
   };
 
-  const hasProfilePhoto =
-    isSuccess && UserResult ? UserResult.profilePhoto : "";
-
   if (isError) {
     return (
       <AlertErrorWithReload invalidateQuery={["admin", "users", "logged"]} />
@@ -52,16 +49,15 @@ const Profile = () => {
     >
       {!isCollapse || isSidebarHover ? (
         <>
-          <Avatar
-            alt="Remy Sharp"
-            src={hasProfilePhoto}
-            sx={{ height: 40, width: 40 }}
-          />
+          <Avatar alt="Remy Sharp" src={""} sx={{ height: 40, width: 40 }} />
           <Box>
-            <Tooltip placement="top" title={UserResult?.name ?? "Loading..."}>
+            <Tooltip
+              placement="top"
+              title={UserResult?.user.first_name ?? "Loading..."}
+            >
               <Typography color={"#021C11"} variant="h6">
-                {UserResult?.name ? (
-                  applyTextLimiter(UserResult?.name, 8)
+                {UserResult?.user.first_name ? (
+                  applyTextLimiter(UserResult?.user.first_name, 8)
                 ) : (
                   <Stack>
                     <Skeleton height={"25px"} width={"80px"} />{" "}
@@ -70,9 +66,10 @@ const Profile = () => {
                 )}
               </Typography>
             </Tooltip>
-            <Tooltip placement="top" title={UserResult?.email ?? ""}>
+            <Tooltip placement="top" title={UserResult?.user.email ?? ""}>
               <Typography color={"#021C11"} variant="caption">
-                {UserResult?.email && applyTextLimiter(UserResult?.email, 10)}
+                {UserResult?.user.email &&
+                  applyTextLimiter(UserResult?.user.email, 10)}
               </Typography>
             </Tooltip>
           </Box>

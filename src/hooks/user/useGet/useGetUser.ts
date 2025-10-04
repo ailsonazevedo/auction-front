@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { PROFILES } from "../../../services/apiService/endpoints/admin/users";
+import { PROFILES } from "../../../services/apiService/endpoints/auth/users";
 
 function useGetUser() {
   return useQuery({

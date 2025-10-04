@@ -1,5 +1,5 @@
 "use client";
-import { useGetMePermissions } from "@/hooks/admin/policies/useGet/useGetMePermissions";
+import { useGetMePermissions } from "@/hooks/user/useGet/useGetMePermissions";
 import { defineRulesFor } from "@/utils/ability/defineFor";
 import { AnyAbility, PureAbility } from "@casl/ability";
 import { createContextualCan } from "@casl/react";
