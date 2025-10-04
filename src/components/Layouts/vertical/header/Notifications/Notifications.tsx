@@ -1,5 +1,6 @@
 "use client";
 import Scrollbar from "@/components/@shared/Scrollbar/Scrollbar";
+import { useGetAllNotifications } from "@/hooks/notifications/useGet/useGetAllNotifications";
 import { useNotificationStore } from "@/stores/notificationStore/notification-store";
 import { formatRelativeTime } from "@/utils/functions/@shared/formatRelativeTime";
 import { DoneAll } from "@mui/icons-material";
@@ -15,18 +16,27 @@ import {
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { IconBellRinging } from "@tabler/icons-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Notifications = () => {
-  const [anchorEl2, setAnchorEl2] = useState(null);
+  const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
   const [loadingNotificationId, setLoadingNotificationId] = useState<
-    null | number
+    null | string
   >(null);
-  const { notifications, removeNotification } = useNotificationStore();
-  // const { mutate: markAsRead } = useMarkNotificationAsRead();
-  // const { notifications } = useSocket() || { notifications: [] };
+  const { markAsRead, notifications, setNotifications } =
+    useNotificationStore();
 
-  const handleClick2 = (event: any) => {
+  const { data: notificationsData } = useGetAllNotifications();
+
+  useEffect(() => {
+    if (notificationsData) {
+      setNotifications(notificationsData);
+    }
+  }, [notificationsData]);
+
+  const unreadCount = notifications.filter((n) => !n.is_read).length;
+
+  const handleClick2 = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl2(event.currentTarget);
   };
 
@@ -34,18 +44,15 @@ const Notifications = () => {
     setAnchorEl2(null);
   };
 
-  // const handleMarkAsRead = (logId: number) => {
-  //   setLoadingNotificationId(logId);
-  //   markAsRead(logId.toString(), {
-  //     onError: () => {
-  //       setLoadingNotificationId(null);
-  //     },
-  //     onSuccess: () => {
-  //       removeNotification(logId);
-  //       setLoadingNotificationId(null);
-  //     },
-  //   });
-  // };
+  const handleMarkAsRead = (id: string) => {
+    setLoadingNotificationId(id);
+    markAsRead(id);
+    setLoadingNotificationId(null);
+  };
+
+  const handleMarkAllAsRead = () => {
+    notifications.filter((n) => !n.is_read).forEach((n) => markAsRead(n.id));
+  };
 
   return (
     <Box>
@@ -61,9 +68,9 @@ const Notifications = () => {
         }}
       >
         <Badge
-          badgeContent={notifications.length}
+          badgeContent={unreadCount}
           color="primary"
-          invisible={notifications.length === 0}
+          invisible={unreadCount === 0}
           max={99}
         >
           <IconBellRinging size="21" stroke="1.5" />
@@ -92,12 +99,20 @@ const Notifications = () => {
           py={2}
         >
           <Typography variant="h6">Notificações</Typography>
-          <Chip
-            color="primary"
-            label={`${notifications.length} novas mensagens`}
-            size="small"
-          />
+          <Chip color="primary" label={`${unreadCount} novas`} size="small" />
         </Stack>
+        {notifications.length > 0 && (
+          <Box pb={1} px={2}>
+            <Button
+              disabled={unreadCount === 0}
+              fullWidth
+              onClick={handleMarkAllAsRead}
+              size="small"
+            >
+              Marcar todas como lidas
+            </Button>
+          </Box>
+        )}
         <Scrollbar sx={{ height: "385px" }}>
           {notifications && !notifications.length && (
             <Box display={"flex"} justifyContent={"center"} p={3}>
@@ -107,8 +122,10 @@ const Notifications = () => {
             </Box>
           )}
           {notifications.map((notification) => (
-            <Box key={notification.logId}>
-              <MenuItem component="a" sx={{ px: 3, py: 2 }}>
+            <Box key={notification.id}>
+              <MenuItem
+                sx={{ opacity: notification.is_read ? 0.6 : 1, px: 3, py: 2 }}
+              >
                 <Stack direction="row" spacing={2}>
                   <Box>
                     <Stack
@@ -126,7 +143,7 @@ const Notifications = () => {
                         }}
                         variant="subtitle2"
                       >
-                        {notification.content?.title ?? "Atualização"}
+                        {notification.title || "Atualização"}
                       </Typography>
                       <Typography
                         color="textSecondary"
@@ -137,19 +154,19 @@ const Notifications = () => {
                         }}
                         variant="caption"
                       >
-                        {formatRelativeTime(notification.sent_at)}
+                        {formatRelativeTime(notification.created_at)}
                       </Typography>
                     </Stack>
                     <Typography
                       color="textSecondary"
-                      noWrap
                       sx={{
+                        mt: 0.5,
                         overflowWrap: "break-word",
                         whiteSpace: "normal",
                       }}
                       variant="body2"
                     >
-                      {notification.content?.message ?? notification.content}
+                      {notification.message}
                     </Typography>{" "}
                     <Box
                       display="flex"
@@ -157,18 +174,20 @@ const Notifications = () => {
                       justifyContent={"center"}
                       mt={1}
                     >
-                      <Button
-                        disableElevation
-                        disabled={loadingNotificationId !== null}
-                        endIcon={<DoneAll />}
-                        // onClick={() => handleMarkAsRead(notification.logId)}
-                        size="small"
-                        variant="text"
-                      >
-                        {loadingNotificationId === notification.logId
-                          ? "Marcando..."
-                          : "Marcar como lido"}
-                      </Button>
+                      {!notification.is_read && (
+                        <Button
+                          disableElevation
+                          disabled={loadingNotificationId !== null}
+                          endIcon={<DoneAll />}
+                          onClick={() => handleMarkAsRead(notification.id)}
+                          size="small"
+                          variant="text"
+                        >
+                          {loadingNotificationId === notification.id
+                            ? "Marcando..."
+                            : "Marcar como lida"}
+                        </Button>
+                      )}
                     </Box>
                   </Box>
                 </Stack>

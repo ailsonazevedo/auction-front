@@ -4,30 +4,32 @@ import { create } from "zustand";
 interface NotificationStore {
   addNotification: (notification: INotification) => void;
   clearNotifications: () => void;
-  markAsRead: (logId: number) => void;
+  markAsRead: (id: string) => void;
   notifications: INotification[];
-  removeNotification: (logId: number) => void;
+  removeNotification: (id: string) => void;
+  setNotifications: (notifications: INotification[]) => void;
 }
 
 export const useNotificationStore = create<NotificationStore>((set) => ({
   addNotification: (notification) =>
     set((state) => {
-      if (state.notifications.some((n) => n.logId === notification.logId))
+      if (state.notifications.some((n) => n.id === notification.id))
         return state;
       return { notifications: [notification, ...state.notifications] };
     }),
   clearNotifications: () => set({ notifications: [] }),
-  markAsRead: (logId) =>
+  markAsRead: (id) =>
     set((state) => ({
       notifications: state.notifications.map((n) =>
-        n.logId === logId
-          ? { ...n, read_at: new Date().toISOString(), was_read: true }
+        n.id === id
+          ? { ...n, is_read: true, updated_at: new Date().toISOString() }
           : n,
       ),
     })),
   notifications: [],
-  removeNotification: (logId) =>
+  removeNotification: (id) =>
     set((state) => ({
-      notifications: state.notifications.filter((n) => n.logId !== logId),
+      notifications: state.notifications.filter((n) => n.id !== id),
     })),
+  setNotifications: (notifications) => set({ notifications }),
 }));

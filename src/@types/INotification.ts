@@ -1,8 +1,9 @@
 export interface INotification {
-  content: any;
-  logId: number;
-  read_at: null | string;
-  sent_at: string;
-  type: string;
-  was_read: boolean;
+  created_at: string;
+  id: string;
+  is_read: boolean;
+  message: string;
+  title: string;
+  updated_at: string;
+  user: number;
 }
