@@ -1,6 +1,12 @@
 "use client";
 import { ADMIN_PERMISSIONS, USER_PERMISSIONS } from "@/constants/permissions";
 import { Can } from "@/utils/providers/AbilityProvider";
+import {
+  AccountBalanceWallet,
+  Home,
+  LocalOffer,
+  PointOfSale,
+} from "@mui/icons-material";
 import { Box, Button, Stack, useMediaQuery } from "@mui/material";
 import Link from "next/link";
 
@@ -14,6 +20,7 @@ const Navigation = () => {
           color="inherit"
           component={Link}
           href="/"
+          startIcon={<Home />}
           sx={{
             color: (theme) => theme.palette.text.secondary,
             px: { sm: 1.5, xs: 1 },
@@ -27,6 +34,7 @@ const Navigation = () => {
             color="inherit"
             component={Link}
             href="/carteiras"
+            startIcon={<AccountBalanceWallet />}
             sx={{
               color: (theme) => theme.palette.text.secondary,
               px: { sm: 1.5, xs: 1 },
@@ -41,6 +49,7 @@ const Navigation = () => {
             color="inherit"
             component={Link}
             href="/lances"
+            startIcon={<LocalOffer />}
             sx={{
               color: (theme) => theme.palette.text.secondary,
               px: { sm: 1.5, xs: 1 },
@@ -55,6 +64,7 @@ const Navigation = () => {
             color="inherit"
             component={Link}
             href="/gerenciar-leiloes"
+            startIcon={<PointOfSale />}
             sx={{
               color: (theme) => theme.palette.text.secondary,
               px: { sm: 1.5, xs: 1 },
