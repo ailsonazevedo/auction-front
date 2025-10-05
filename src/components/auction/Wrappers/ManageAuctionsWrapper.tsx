@@ -8,6 +8,7 @@ import { SimpleModal } from "@/components/@shared/Modal/SimpleModal";
 import { AuctionForm } from "@/components/auction/Forms/AuctionForm";
 import { useDeleteAuction } from "@/hooks/auctions/useDelete/useDeleteAuction";
 import { useGetAllAuctions } from "@/hooks/auctions/useGet/useGetAllAuctions";
+import { AddCircle } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { LoadingButton } from "@mui/lab";
@@ -88,6 +89,7 @@ const ManageAuctionsWrapper = () => {
           onClick={() => {
             setOpenModal(true);
           }}
+          startIcon={<AddCircle />}
           variant="contained"
         >
           Novo Leilão

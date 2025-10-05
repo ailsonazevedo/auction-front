@@ -2,6 +2,7 @@ import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/
 import { SubmitButtons } from "@/components/@shared/Button/SubmitButton";
 import { CustomAutocomplete } from "@/components/@shared/CustomAutocomplete/CustomAutocomplete";
 import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
+import { auctionSchema } from "@/components/auction/Forms/_yup/auctionSchema";
 import { useCreateAuction } from "@/hooks/auctions/useCreate/useCreateAuction";
 import { useGetOneAuction } from "@/hooks/auctions/useGet/useGetOneAuction";
 import useUpdateAuction from "@/hooks/auctions/useUpdate/useUpdateAuction";
@@ -50,6 +51,7 @@ const AuctionForm = ({ auctionId, onClose }: Props) => {
       }
       onClose();
     },
+    validationSchema: auctionSchema,
   });
 
   useEffect(() => {

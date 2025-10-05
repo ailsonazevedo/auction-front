@@ -6,7 +6,9 @@ import { BidForm } from "@/components/bid/Forms/BidForm";
 import { useAuctionRoom } from "@/hooks/auctions/useAuctionRoom";
 import { useGetOneAuction } from "@/hooks/auctions/useGet/useGetOneAuction";
 import { moneyMaskFromNumber } from "@/utils/functions/@shared/masks/moneyMask";
+import { AddToPhotos, History } from "@mui/icons-material";
 import {
+  Alert,
   Avatar,
   Box,
   Button,
@@ -43,7 +45,8 @@ interface BidHistoryItem {
 const WrapperAuction = ({ auctionId }: Props) => {
   const [openModal, setOpenModal] = useState(false);
   const { auctionData } = useAuctionRoom(auctionId);
-  const { data: auctionResult } = useGetOneAuction(auctionId);
+  const { data: auctionResult, isLoading: isLoadingAuction } =
+    useGetOneAuction(auctionId);
   const [bidHistory, setBidHistory] = useState<BidHistoryItem[]>([]);
 
   useEffect(() => {
@@ -84,6 +87,12 @@ const WrapperAuction = ({ auctionId }: Props) => {
       : null;
 
   const canCreateBid = auctionResult?.status === "open";
+
+  const increment = Number(currentBid) + Number(currentBid) * 0.2;
+
+  if (isLoadingAuction) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <Box p={4}>
@@ -152,12 +161,26 @@ const WrapperAuction = ({ auctionId }: Props) => {
                     disabled={!canCreateBid}
                     fullWidth
                     onClick={() => setOpenModal(true)}
+                    startIcon={<AddToPhotos />}
                     variant="contained"
                   >
                     Dar lance
                   </Button>
                 </Grid>
+                <Grid item xs={8}>
+                  {!canCreateBid && (
+                    <Typography color="error">
+                      O leilão está encerrado. Não é possível dar lances.
+                    </Typography>
+                  )}
+                </Grid>
               </Grid>
+              <Alert severity="info" sx={{ m: 1 }}>
+                <Typography>
+                  Ao dar um lance, o incremento será de pelo menos 20% a mais
+                  que o valor do lance atual.
+                </Typography>
+              </Alert>
             </Box>
           </Paper>
           <Paper
@@ -183,6 +206,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
         <Grid item md={4} xs={12}>
           <Card elevation={4} sx={{ maxHeight: 500, overflow: "auto" }}>
             <CardHeader
+              avatar={<History />}
               sx={{
                 bgcolor: "primary.main",
                 border: 2,
@@ -223,6 +247,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
       >
         <BidForm
           auctionId={auctionId}
+          increment={Number(increment.toFixed(2))}
           onClose={() => {
             setOpenModal(false);
           }}

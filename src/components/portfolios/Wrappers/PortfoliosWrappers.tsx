@@ -9,6 +9,7 @@ import { PortfolioForm } from "@/components/portfolios/Forms/PortfolioForm";
 import { useDeletePortfolio } from "@/hooks/portfolios/useDelete/useDeletePortfolio";
 import { useGetAllPortfolios } from "@/hooks/portfolios/useGet/useGetAllPortfolios";
 import { moneyMaskFromNumber } from "@/utils/functions/@shared/masks/moneyMask";
+import { AddCircle, CloudUpload } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { LoadingButton } from "@mui/lab";
@@ -91,8 +92,13 @@ const PortfoliosWrappers = () => {
         Carteiras
       </Typography>
       <Stack direction="row" justifyContent="center" mb={2} spacing={2}>
-        <Button onClick={() => setOpenModal(true)}>Nova Carteira</Button>
-        <Button onClick={() => setOpenModalUpload(true)}>
+        <Button onClick={() => setOpenModal(true)} startIcon={<AddCircle />}>
+          Nova Carteira
+        </Button>
+        <Button
+          onClick={() => setOpenModalUpload(true)}
+          startIcon={<CloudUpload />}
+        >
           Importar carteiras
         </Button>
       </Stack>
