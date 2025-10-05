@@ -1,13 +1,28 @@
 "use client";
 import { IPagination } from "@/@types/IPagination";
+import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/AlertErrorWithRealod";
 import { CustomPagination } from "@/components/@shared/CustomPagination/CustomPagination";
+import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
 import { SimpleModal } from "@/components/@shared/Modal/SimpleModal";
 import { PortfolioForm } from "@/components/portfolios/Forms/PortfolioForm";
+import { useDeletePortfolio } from "@/hooks/portfolios/useDelete/useDeletePortfolio";
 import { useGetAllPortfolios } from "@/hooks/portfolios/useGet/useGetAllPortfolios";
 import { moneyMaskFromNumber } from "@/utils/functions/@shared/masks/moneyMask";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Button, Card, Grid, IconButton, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import {
+  Box,
+  Button,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import moment from "moment";
 import { parseAsString, useQueryState } from "nuqs";
 import { useState } from "react";
@@ -16,6 +31,7 @@ moment.locale("pt-br");
 
 const PortfoliosWrappers = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openDialogDel, setOpenDialogDel] = useState(false);
   const [page] = useQueryState(
     "page",
     parseAsString.withDefault("1").withOptions({ clearOnDefault: true }),
@@ -34,17 +50,29 @@ const PortfoliosWrappers = () => {
     isLoading: isLoadingPortfolios,
   } = useGetAllPortfolios(pagination);
 
+  const { isPending: isPendingDelete, mutateAsync: deletePortfolio } =
+    useDeletePortfolio(["portfolios"]);
+
   const countPages = Math.ceil(
     (portfoliosResult?.count ?? 0) / pagination.page_size,
   );
 
   if (isLoadingPortfolios) {
-    return <Typography>Carregando...</Typography>;
+    return <LoadingSkeleton />;
   }
 
   if (isErrorPortfolios) {
-    return <Typography>Erro ao carregar as carteiras.</Typography>;
+    return (
+      <Box>
+        <AlertErrorWithReload invalidateQuery={["portfolios"]} />
+      </Box>
+    );
   }
+
+  const handleCloseDialog = () => {
+    setOpenDialogDel(false);
+    setPortfolioId("");
+  };
 
   return (
     <Box mt={4} px={2}>
@@ -130,6 +158,10 @@ const PortfoliosWrappers = () => {
                 <IconButton
                   aria-label="Remover carteira"
                   color="error"
+                  onClick={() => {
+                    setPortfolioId(portfolio.id);
+                    setOpenDialogDel(true);
+                  }}
                   size="small"
                 >
                   <DeleteIcon fontSize="small" />
@@ -158,6 +190,33 @@ const PortfoliosWrappers = () => {
           portfolioId={portfolioId}
         />
       </SimpleModal>
+      <Box>
+        <Dialog onClose={handleCloseDialog} open={openDialogDel}>
+          <DialogTitle>Deletar carteira</DialogTitle>
+          <DialogContent>
+            <Box>
+              <Typography>
+                Tem certeza que deseja deletar essa carteira?
+              </Typography>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={isPendingDelete} onClick={handleCloseDialog}>
+              Cancelar
+            </Button>
+            <LoadingButton
+              color="error"
+              loading={isPendingDelete}
+              onClick={async () => {
+                await deletePortfolio(portfolioId);
+                handleCloseDialog();
+              }}
+            >
+              Confirmar
+            </LoadingButton>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </Box>
   );
 };

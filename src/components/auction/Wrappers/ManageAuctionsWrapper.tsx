@@ -1,7 +1,6 @@
 "use client";
 
 import { IPagination } from "@/@types/IPagination";
-import { TAuction } from "@/@types/auction/IAuction";
 import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/AlertErrorWithRealod";
 import { CustomPagination } from "@/components/@shared/CustomPagination/CustomPagination";
 import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
@@ -11,11 +10,16 @@ import { useDeleteAuction } from "@/hooks/auctions/useDelete/useDeleteAuction";
 import { useGetAllAuctions } from "@/hooks/auctions/useGet/useGetAllAuctions";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { LoadingButton } from "@mui/lab";
 import {
   Box,
   Button,
   Card,
   Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   IconButton,
   Stack,
@@ -29,7 +33,7 @@ moment.locale("pt-br");
 
 const ManageAuctionsWrapper = () => {
   const [openModal, setOpenModal] = useState(false);
-
+  const [openDialogDel, setOpenDialogDel] = useState(false);
   const [auctionId, setAuctionId] = useState("");
 
   const [page] = useQueryState(
@@ -48,20 +52,13 @@ const ManageAuctionsWrapper = () => {
     isLoading: isLoadingAuctions,
   } = useGetAllAuctions(pagination);
 
-  const { mutateAsync: deleteAuction } = useDeleteAuction(["auctions"]);
+  const { isPending: isPendingDelete, mutateAsync: deleteAuction } =
+    useDeleteAuction(["auctions"]);
 
   const countPages = useMemo(
     () => Math.ceil((auctionsResp?.count ?? 0) / pagination.page_size),
     [auctionsResp?.count, pagination.page_size],
   );
-
-  const handleDelete = async (auction: TAuction) => {
-    const confirmed = window.confirm(
-      `Remover o leilão do portfólio "${auction.portfolio.name}"?`,
-    );
-    if (!confirmed) return;
-    await deleteAuction(auction.id);
-  };
 
   if ((auctionsResp?.items ?? []).length === 0) {
     return (
@@ -70,6 +67,11 @@ const ManageAuctionsWrapper = () => {
       </Typography>
     );
   }
+
+  const handleCloseDialog = () => {
+    setOpenDialogDel(false);
+    setAuctionId("");
+  };
 
   return (
     <Box mt={4} px={2}>
@@ -157,7 +159,10 @@ const ManageAuctionsWrapper = () => {
                 <IconButton
                   aria-label="Remover leilão"
                   color="error"
-                  onClick={() => handleDelete(auction)}
+                  onClick={() => {
+                    setAuctionId(auction.id);
+                    setOpenDialogDel(true);
+                  }}
                   size="small"
                 >
                   <DeleteIcon fontSize="small" />
@@ -191,6 +196,33 @@ const ManageAuctionsWrapper = () => {
           }}
         />
       </SimpleModal>
+      <Box>
+        <Dialog onClose={handleCloseDialog} open={openDialogDel}>
+          <DialogTitle>Deletar leilão</DialogTitle>
+          <DialogContent>
+            <Box>
+              <Typography>
+                Tem certeza que deseja deletar esse leilão?
+              </Typography>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={isPendingDelete} onClick={handleCloseDialog}>
+              Cancelar
+            </Button>
+            <LoadingButton
+              color="error"
+              loading={isPendingDelete}
+              onClick={async () => {
+                await deleteAuction(auctionId);
+                handleCloseDialog();
+              }}
+            >
+              Confirmar
+            </LoadingButton>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </Box>
   );
 };
