@@ -18,7 +18,7 @@ function useGetAllBids(pagination?: IPagination) {
       const requests = await getList(urlFilter);
       return requests;
     },
-    queryKey: ["auctions", pagination],
+    queryKey: ["bids", pagination],
     refetchOnWindowFocus: false, // Não fazer o refetch involuntario quando a janela do browser for alterada e retornada
   });
 }

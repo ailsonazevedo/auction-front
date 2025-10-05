@@ -40,14 +40,14 @@ const Navigation = () => {
           <Button
             color="inherit"
             component={Link}
-            href="/meus-lances"
+            href="/lances"
             sx={{
               color: (theme) => theme.palette.text.secondary,
               px: { sm: 1.5, xs: 1 },
             }}
             variant="text"
           >
-            Meus Lances
+            Lances
           </Button>
         </Can>
         <Can I={ADMIN_PERMISSIONS.CREATE_AUCTION} a={"all"}>

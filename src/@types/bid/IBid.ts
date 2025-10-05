@@ -1,4 +1,4 @@
-import { IAuction } from "@/@types/auction/IAuction";
+import { TAuction } from "@/@types/auction/IAuction";
 import { IProfile } from "@/@types/user/IProfile";
 
 export interface IBid {
@@ -7,9 +7,9 @@ export interface IBid {
 }
 
 export type TBid = {
-  auction: IAuction;
+  auction: TAuction;
   created_at: string;
   id: string;
   profile: IProfile;
   updated_at: string;
-};
+} & IBid;

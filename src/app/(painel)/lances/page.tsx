@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 
+import { WrapperBidsHistory } from "@/components/bid/Wrappers/WrapperBidsHistory";
 import { USER_PERMISSIONS } from "@/constants/permissions";
 import { hasAuth } from "@/utils/auth/auth";
 import { Skeleton } from "@mui/material";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Meus lances - Auction",
+  title: "Lances - Auction",
 };
 
 const Page = async () => {
@@ -16,7 +17,7 @@ const Page = async () => {
     <Suspense
       fallback={<Skeleton height="200px" variant="rounded" width="100%" />}
     >
-      <h1>Meus lances</h1>
+      <WrapperBidsHistory />
     </Suspense>
   );
 };
