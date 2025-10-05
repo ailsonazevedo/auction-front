@@ -4,6 +4,7 @@ import { AlertErrorWithReload } from "@/components/@shared/AlertErrorWithReload/
 import { CustomPagination } from "@/components/@shared/CustomPagination/CustomPagination";
 import LoadingSkeleton from "@/components/@shared/LoadingSkeleton/LoadingSkeleton";
 import { SimpleModal } from "@/components/@shared/Modal/SimpleModal";
+import { UploadFile } from "@/components/@shared/UploadFile/UploadFile";
 import { PortfolioForm } from "@/components/portfolios/Forms/PortfolioForm";
 import { useDeletePortfolio } from "@/hooks/portfolios/useDelete/useDeletePortfolio";
 import { useGetAllPortfolios } from "@/hooks/portfolios/useGet/useGetAllPortfolios";
@@ -21,6 +22,7 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  Stack,
   Typography,
 } from "@mui/material";
 import moment from "moment";
@@ -31,6 +33,7 @@ moment.locale("pt-br");
 
 const PortfoliosWrappers = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openModalUpload, setOpenModalUpload] = useState(false);
   const [openDialogDel, setOpenDialogDel] = useState(false);
   const [page] = useQueryState(
     "page",
@@ -48,6 +51,7 @@ const PortfoliosWrappers = () => {
     data: portfoliosResult,
     isError: isErrorPortfolios,
     isLoading: isLoadingPortfolios,
+    refetch: refetchPortfolios,
   } = useGetAllPortfolios(pagination);
 
   const { isPending: isPendingDelete, mutateAsync: deletePortfolio } =
@@ -86,7 +90,12 @@ const PortfoliosWrappers = () => {
       >
         Carteiras
       </Typography>
-      <Button onClick={() => setOpenModal(true)}>Nova Carteira</Button>
+      <Stack direction="row" justifyContent="center" mb={2} spacing={2}>
+        <Button onClick={() => setOpenModal(true)}>Nova Carteira</Button>
+        <Button onClick={() => setOpenModalUpload(true)}>
+          Importar carteiras
+        </Button>
+      </Stack>
       <Grid container spacing={3}>
         {portfoliosResult?.items.map((portfolio, i) => (
           <Grid item key={portfolio.id} lg={3} md={4} sm={6} xs={12}>
@@ -189,6 +198,23 @@ const PortfoliosWrappers = () => {
           }}
           portfolioId={portfolioId}
         />
+      </SimpleModal>
+      <SimpleModal
+        onClose={() => {
+          setOpenModalUpload(false);
+        }}
+        open={openModalUpload}
+        title="Importar carteiras"
+      >
+        <Box m={2}>
+          <UploadFile
+            acceptedTypes={".csv,text/csv"}
+            onSuccess={async () => {
+              setOpenModalUpload(false);
+              await refetchPortfolios();
+            }}
+          />
+        </Box>
       </SimpleModal>
       <Box>
         <Dialog onClose={handleCloseDialog} open={openDialogDel}>
