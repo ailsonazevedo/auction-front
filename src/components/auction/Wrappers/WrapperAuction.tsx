@@ -20,6 +20,7 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemText,
   Paper,
   Stack,
@@ -40,6 +41,22 @@ interface BidHistoryItem {
   profile_id: string;
   time: string;
   value: number | string;
+}
+
+function stringToColor(str?: string) {
+  if (!str) return "#607d8b";
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const h = hash % 360;
+  return `hsl(${h}, 65%, 55%)`;
+}
+
+function getInitials(name?: string) {
+  if (!name) return "?";
+  const parts = name.trim().split(/\s+/).slice(0, 2);
+  return parts.map((p) => p[0]?.toUpperCase()).join("");
 }
 
 const WrapperAuction = ({ auctionId }: Props) => {
@@ -216,24 +233,81 @@ const WrapperAuction = ({ auctionId }: Props) => {
               title="Histórico de Lances"
             />
             <CardContent>
-              <List>
+              <List dense sx={{ py: 0 }}>
                 {bidHistory.length === 0 && (
                   <ListItem>
                     <ListItemText primary="Nenhum lance ainda." />
                   </ListItem>
                 )}
-                {bidHistory.map((bid) => (
-                  <ListItem key={bid.id}>
-                    <ListItemText
-                      primary={
-                        <span>
-                          <b>{moneyMaskFromNumber(Number(bid.value))}</b>{" "}
-                          <Chip label={bid.name} size="small" sx={{ ml: 1 }} />
-                        </span>
+                {bidHistory.map((bid, index) => (
+                  <Box key={bid.id ?? index}>
+                    <ListItem
+                      alignItems="flex-start"
+                      secondaryAction={
+                        <Stack gap={0.5} textAlign="right">
+                          <Typography
+                            color="primary.main"
+                            fontWeight={700}
+                            variant="subtitle2"
+                          >
+                            {moneyMaskFromNumber(Number(bid.value))}
+                          </Typography>
+                        </Stack>
                       }
-                      secondary={`Às ${bid.time}`}
-                    />
-                  </ListItem>
+                      sx={{
+                        bgcolor:
+                          index === 0 ? "primary.alpha10" : "transparent",
+                        borderRadius: 1,
+                        mt: 0.5,
+                        px: 1,
+                      }}
+                    >
+                      <ListItemAvatar>
+                        <Avatar
+                          sx={{
+                            bgcolor: stringToColor(bid.name),
+                            fontSize: 14,
+                            fontWeight: 600,
+                            height: 36,
+                            width: 36,
+                          }}
+                        >
+                          {getInitials(bid.name)}
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          <Stack alignItems="center" direction="row" gap={1}>
+                            <Typography fontWeight={600} noWrap variant="body2">
+                              {bid.name}
+                            </Typography>
+                          </Stack>
+                        }
+                        secondary={
+                          <Stack alignItems="center" direction="row" gap={1}>
+                            <Typography
+                              color="text.secondary"
+                              sx={{ display: "block" }}
+                              variant="caption"
+                            >
+                              #{index + 1}
+                            </Typography>
+                            {index === 0 && (
+                              <Chip
+                                color="success"
+                                label="Lance Atual"
+                                size="small"
+                                sx={{ height: 20 }}
+                              />
+                            )}
+                          </Stack>
+                        }
+                      />
+                    </ListItem>
+                    {index < bidHistory.length - 1 && (
+                      <Divider component="li" sx={{ ml: 7 }} />
+                    )}
+                  </Box>
                 ))}
               </List>
             </CardContent>
