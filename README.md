@@ -28,6 +28,14 @@ Certifique-se de ter os seguintes softwares instalados em sua máquina:
    npm i
    ```
 
+### Configurar variáveis de ambiente
+Crie um arquivo `.env` na raiz do projeto e adicione as variáveis de ambiente necessárias. Exemplo:
+
+```env
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api/v1
+NEXT_PUBLIC_WS_URL=ws://127.0.0.1:8000
+```
+
 3. **Scripts**:
 
    #### Desenvolvimento:
@@ -51,6 +59,7 @@ Certifique-se de ter os seguintes softwares instalados em sua máquina:
    yarn start
    npm run start
    ```
+
 
 #### Configurar Prettier no VSCode:
 
