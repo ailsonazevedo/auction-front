@@ -1,0 +1,2 @@
+export const USER_LOCAL_STORAGE =
+  process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE ?? "USER";

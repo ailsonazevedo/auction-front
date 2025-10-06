@@ -1,0 +1,42 @@
+// .eslintrc
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:perfectionist/recommended-natural"
+  ],
+  "plugins": ["unused-imports", "check-file"],
+  "rules": {
+    "perfectionist/sort-imports": "error",
+    "@next/next/no-img-element": 0,
+    "no-console": ["error", { "allow": ["error"] }],
+    "unused-imports/no-unused-imports": "error",
+    "react-hooks/exhaustive-deps": 0,
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1 }],
+    "check-file/filename-naming-convention": [
+      "error",
+      {
+        "src/@types/**/*.ts": "PASCAL_CASE",
+        "src/@URLQueries/**/*.ts": "PASCAL_CASE",
+        "src/actions/**/*.ts": "KEBAB_CASE",
+        "src/app/**/*.tsx": "KEBAB_CASE",
+        "src/components/**/*.tsx": "PASCAL_CASE",
+        "src/constants/**/*.ts": "CAMEL_CASE",
+        "src/hooks/**/*.ts": "CAMEL_CASE",
+        "src/services/**/*.ts": "CAMEL_CASE",
+        "src/stores/**/*.ts": "KEBAB_CASE",
+        "src/utils/functions/**/*.ts": "CAMEL_CASE",
+        "src/utils/providers/**/*.tsx": "PASCAL_CASE",
+        "src/utils/theme/**/*.tsx": "PASCAL_CASE"
+      },
+      {
+        "ignoreMiddleExtensions": true
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/sw.js"
+  ]
+}
