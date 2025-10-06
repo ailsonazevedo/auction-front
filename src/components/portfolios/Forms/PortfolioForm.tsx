@@ -23,8 +23,8 @@ const PortfolioForm = ({ onClose, portfolioId }: Props) => {
   const { mutateAsync: updatePortfolio } = useUpdatePortfolio(["portfolios"]);
   const {
     data: portfolioData,
-    isError: isErrorFiscalContrato,
-    isLoading: isLoadingfiscalContrato,
+    isError: isErrorPortfolio,
+    isLoading: isLoadingPortfolio,
   } = useGetOnePortfolio(portfolioId ?? "");
   const formik = useFormik({
     enableReinitialize: true,
@@ -73,10 +73,10 @@ const PortfolioForm = ({ onClose, portfolioId }: Props) => {
     }
   }, [portfolioData]);
 
-  if (isLoadingfiscalContrato) {
+  if (isLoadingPortfolio) {
     return <LoadingSkeleton />;
   }
-  if (portfolioId && isErrorFiscalContrato) {
+  if (portfolioId && isErrorPortfolio) {
     return (
       <Box>
         <AlertErrorWithReload invalidateQuery={["portfolio", portfolioId]} />

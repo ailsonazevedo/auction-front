@@ -1,8 +1,7 @@
 import { IProfile } from "@/@types/user/IProfile";
 import { getLoggedUserId } from "@/actions/get-logged-user-id";
+import { PROFILES } from "@/services/apiService/endpoints/auth/users";
 import { useQuery } from "@tanstack/react-query";
-
-import { PROFILES } from "../../../services/apiService/endpoints/auth/users";
 
 function useGetInfoLoggedUser() {
   const { getOne } = PROFILES;
@@ -12,7 +11,7 @@ function useGetInfoLoggedUser() {
       const userId = await getLoggedUserId();
       return await getOne(userId);
     },
-    queryKey: ["admin", "users", "logged"], // Usado para identificar a chamada no cache
+    queryKey: ["profile", "logged"],
     refetchOnWindowFocus: false, // Não fazer o refetch involuntario quando a janela do browser for alterada e retornada
   });
 }

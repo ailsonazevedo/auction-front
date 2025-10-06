@@ -88,9 +88,9 @@ const baselightTheme = {
     },
     user: {
       breadcrumb: {
-        bg: "#FD5426",
+        bg: "#3a539c",
         // bg: "#D9D9D9",
-        borderColor: "#FD5426",
+        borderColor: "#3a539c",
         // borderColor: "#E0E0E0",
         subtitle: "#fff",
         title: "#fff",

@@ -1,7 +1,6 @@
 import { IProfile } from "@/@types/user/IProfile";
+import { PROFILES } from "@/services/apiService/endpoints/auth/users";
 import { useQuery } from "@tanstack/react-query";
-
-import { PROFILES } from "../../../services/apiService/endpoints/auth/users";
 
 function useGetOneUser(id: string) {
   const { getOne } = PROFILES;
@@ -11,7 +10,7 @@ function useGetOneUser(id: string) {
     queryFn: async (): Promise<IProfile> => {
       return await getOne(id);
     },
-    queryKey: ["admin", "users", id], // Usado para identificar a chamada no cache
+    queryKey: ["profile", id],
     refetchOnWindowFocus: false, // Não fazer o refetch involuntario quando a janela do browser for alterada e retornada
   });
 }

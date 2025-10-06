@@ -1,14 +1,20 @@
+import { IUpdateProfile } from "@/@types/user/IProfile";
 import { PROFILES } from "@/services/apiService/endpoints/auth/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-function useDeleteUser(invalidateQuery: string[]) {
-  const { deleteOne } = PROFILES;
+const useUpdateProfile = (invalidateQuery: string[]) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (id: string) => {
-      const data = deleteOne(id);
-      return Promise.resolve(data);
+    mutationFn: async ({
+      data,
+      id,
+    }: {
+      data: Partial<IUpdateProfile>;
+      id: string;
+    }) => {
+      const response = await PROFILES.patch(data, id);
+      return Promise.resolve(response);
     },
     onError: async (error: any) => {
       toast.error("Algo deu errado");
@@ -16,9 +22,9 @@ function useDeleteUser(invalidateQuery: string[]) {
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: invalidateQuery }),
     onSuccess: () => {
-      toast.success("Usuário deletado com sucesso");
+      toast.success("Usuário atualizado com sucesso");
     },
   });
-}
+};
 
-export { useDeleteUser };
+export default useUpdateProfile;

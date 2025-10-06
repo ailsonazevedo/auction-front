@@ -1,13 +1,6 @@
+import { PROFILES } from "@/services/apiService/endpoints/auth/users";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
-import { PROFILES } from "../../../services/apiService/endpoints/auth/users";
-
-type ErrorResponse = {
-  error: string;
-  message: string;
-  statusCode: number;
-};
 
 function useCreateUser(invalidateQuery: string[]) {
   const queryClient = useQueryClient();
@@ -19,7 +12,7 @@ function useCreateUser(invalidateQuery: string[]) {
       }
       return Promise.resolve(response);
     },
-    onError: async (error: ErrorResponse) => {
+    onError: async (error: any) => {
       toast.dismiss("loadingCreateUser");
       if (error.statusCode === 400) {
         toast.error("Email já cadastrado.", { id: "errorEmail" });

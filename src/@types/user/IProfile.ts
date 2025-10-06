@@ -12,16 +12,13 @@ interface IProfile {
   user: IUser;
 }
 
-interface ICreateProfile {
+interface IUpdateProfile {
   cpf: string;
   email: string;
   first_name: string;
   last_name: string;
-  password: string;
-}
-
-interface IUpdateProfile extends Partial<IProfile> {
   password?: string;
+  role: string;
 }
 
-export type { ICreateProfile, IProfile, IUpdateProfile };
+export type { IProfile, IUpdateProfile };
