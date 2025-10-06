@@ -131,7 +131,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
       <Grid container spacing={3}>
         <Grid item md={8} xs={12}>
           <Paper elevation={3} sx={{ mb: 3, p: 3 }}>
-            <Typography variant="h6">Detalhes do Portfólio</Typography>
+            <Typography variant="h6">Detalhes da Carteira</Typography>
             <Divider sx={{ mb: 2 }} />
             {auctionResult ? (
               <Stack spacing={1}>
@@ -317,7 +317,7 @@ const WrapperAuction = ({ auctionId }: Props) => {
       <SimpleModal
         onClose={() => setOpenModal(false)}
         open={openModal}
-        title="Dar um Lance"
+        title="Incrementar Lance"
       >
         <BidForm
           auctionId={auctionId}
