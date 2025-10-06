@@ -124,7 +124,7 @@ const profile: ProfileType[] = [
   {
     href: "/meu-perfil",
     icon: "/profile/user-1.jpg",
-    subtitle: "Configurações da conta",
+    subtitle: "Informações da conta",
     title: "Meu perfil",
   },
 ];
