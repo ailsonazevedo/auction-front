@@ -23,9 +23,4 @@ const applyCpfMask = (value: string): string => {
     .replace(EXCESS_DIGITS, "$1");
 };
 
-const hideMiddleCpfMask = (cpf: string): string => {
-  const firstPart = cpf.substring(0, 3);
-  const lastPart = cpf.substring(cpf.length - 2, cpf.length);
-  return firstPart + ".***.***-" + lastPart;
-};
-export { applyCpfMask, hideMiddleCpfMask };
+export { applyCpfMask };

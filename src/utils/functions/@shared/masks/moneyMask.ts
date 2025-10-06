@@ -9,13 +9,6 @@ const moneyMask = (value: string) => {
   }
   return value;
 };
-const unMaskMoney = (value: string) => {
-  return value.replace(/\./g, "").replace(",", ".");
-};
-
-const numContaMask = (value: string) => {
-  return value.replace(/[^\d-]/g, "");
-};
 
 const moneyMaskFromNumber = (value: number) => {
   if (typeof value !== "number" || isNaN(value)) return "R$ 0,00";
@@ -25,4 +18,4 @@ const moneyMaskFromNumber = (value: number) => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 };
 
-export { moneyMask, moneyMaskFromNumber, numContaMask, unMaskMoney };
+export { moneyMask, moneyMaskFromNumber };
